@@ -5,7 +5,13 @@ import eu.okaeri.sdk.noproxy.NoProxyClient;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
@@ -18,6 +24,37 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
     private NoProxyBukkit noproxy;
     private NoProxyClient client;
 
+    class ConfigurationNotifier implements Listener {
+
+        private final NoProxyBukkitPlugin plugin;
+        private String updateMessage = ChatColor.RED + "Plugin " + NoProxyBukkitPlugin.super.getName()
+                + " requires configuration. See config.yml for more details!";
+
+        public ConfigurationNotifier(NoProxyBukkitPlugin plugin) {
+            this.plugin = plugin;
+        }
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onJoin(PlayerJoinEvent event) {
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> this.messagePlayer(event.getPlayer()), 5 * 20);
+        }
+
+        public void messagePlayer(Player player) {
+            if (!player.isOp() && !player.hasPermission("noproxy.notify")) {
+                return;
+            }
+            player.sendMessage(this.updateMessage);
+        }
+
+        public void messageAdmins() {
+            Bukkit.getOnlinePlayers().forEach(this::messagePlayer);
+        }
+
+        public void logToConsole() {
+            Bukkit.getConsoleSender().sendMessage(this.updateMessage);
+        }
+    }
+
     @Override
     public void onEnable() {
 
@@ -29,8 +66,11 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         String token = config.getString("token");
 
         if ((token == null) || "".equals(token)) {
-            this.getLogger().log(Level.SEVERE, "Nie znaleziono poprawnie ustawionej wartosci 'token' w config.yml," +
-                    " nalezy ja ustawic i zrestartowac serwer.");
+            this.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
+            ConfigurationNotifier notifier = new ConfigurationNotifier(this);
+            this.getServer().getPluginManager().registerEvents(notifier, this);
+            this.getServer().getScheduler().runTaskTimer(this, notifier::messageAdmins, 20, 60 * 20);
+            this.getServer().getScheduler().runTaskLater(this, notifier::logToConsole, 5 * 20);
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -48,13 +88,13 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
                 NoProxyWebhook noProxyWebhook = new NoProxyWebhook();
                 Object url = webhook.get("url");
                 if (url == null) {
-                    this.getLogger().log(Level.WARNING, "Jeden lub więcej webhooków nie ma adresu url, ignorowanie.");
+                    this.getLogger().log(Level.WARNING, "One or more of webhooks does not have 'url', skipping.");
                     continue;
                 }
                 noProxyWebhook.setUrl(String.valueOf(url));
                 Object method = webhook.get("method");
                 if (method == null) {
-                    this.getLogger().log(Level.INFO, "Webhook '" + url + "' nie ma zdefiniowanej metody. Przyjmowanie domyslnej wartosci: " + noProxyWebhook.getMethod());
+                    this.getLogger().log(Level.INFO, "Webhook '" + url + "' does not define 'method'. Using defaults: " + noProxyWebhook.getMethod());
                 } else {
                     noProxyWebhook.setMethod(String.valueOf(method));
                 }
