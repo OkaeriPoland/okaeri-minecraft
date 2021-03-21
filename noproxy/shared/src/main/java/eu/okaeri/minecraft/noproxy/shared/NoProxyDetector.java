@@ -92,7 +92,7 @@ public abstract class NoProxyDetector {
         } catch (NoProxyException exception) {
             NoProxyError apiError = exception.getApiError();
             this.timeMap.put(ip, now);
-            this.warning("Blad komunikacji z API No.Proxy: " + exception.getMessage());
+            this.warning("Error communicating OK! No.Proxy API: " + exception.getMessage());
             if (this.debug) exception.printStackTrace();
             return false;
         }
@@ -103,7 +103,7 @@ public abstract class NoProxyDetector {
         this.dispatchAsync(() -> this.dispatchWebhooks(NoProxyAddressInfo, block, Collections.singletonMap("nick", name)));
 
         if (block) {
-            this.info("Zablokowano adres IP '" + ip + "' [" + NoProxyAddressInfo.getGeneral().getCountry() + ", AS" + NoProxyAddressInfo.getGeneral().getAsn() + "]");
+            this.info("Blocked IP address '" + ip + "' [" + NoProxyAddressInfo.getGeneral().getCountry() + ", AS" + NoProxyAddressInfo.getGeneral().getAsn() + "]");
         }
 
         return block;
