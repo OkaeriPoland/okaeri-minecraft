@@ -17,10 +17,17 @@
  */
 package eu.okaeri.minecraft.noproxy.shared;
 
+import eu.okaeri.configs.OkaeriConfig;
+import eu.okaeri.configs.annotation.NameModifier;
+import eu.okaeri.configs.annotation.NameStrategy;
+import eu.okaeri.configs.annotation.Names;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class NoProxyWebhook {
+@EqualsAndHashCode(callSuper = false)
+@Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
+public class NoProxyWebhook extends OkaeriConfig {
     private String url;
     private String method = "GET";
     private String content = "";

@@ -47,7 +47,7 @@ public abstract class NoProxyDetector {
 
     private final Map<String, NoProxyAddressInfo> infoMap = new ConcurrentHashMap<>();
     private final Map<String, Long> timeMap = new ConcurrentHashMap<>();
-    private final List<NoProxyWebhook> webhookList = new ArrayList<>();
+    private final Set<NoProxyWebhook> webhookList = new HashSet<>();
     private long nextDiscard = System.currentTimeMillis() + DATA_DISCARD_TIME;
 
     public NoProxyDetector(NoProxyClient client) {
@@ -66,7 +66,7 @@ public abstract class NoProxyDetector {
         this.webhookList.add(webhook);
     }
 
-    public List<NoProxyWebhook> getWebhookList() {
+    public Set<NoProxyWebhook> getWebhooks() {
         return this.webhookList;
     }
 
@@ -150,10 +150,11 @@ public abstract class NoProxyDetector {
 
     public void dispatchWebhook(NoProxyAddressInfo info, NoProxyWebhook webhook, Map<String, String> additionalVariables) {
         if (this.debug) this.info("Preparing webhook for " + webhook);
-        Map<String, String> NoProxyAddressInfoMap = this.NoProxyAddressInfoToMap(info);
-        String method = webhook.getMethod();
-        String url = this.replaceVariables(webhook.getUrl(), info, true, false, NoProxyAddressInfoMap, additionalVariables);
-        String body = this.replaceVariables(webhook.getContent(), info, false, true, NoProxyAddressInfoMap, additionalVariables);
+        if (webhook.getUrl() == null) throw new IllegalArgumentException("webhook.url cannot be null");
+        String method = (webhook.getMethod() == null) ? "GET" : webhook.getMethod();
+        String url = this.replaceVariables(webhook.getUrl(), info, true, false, this.addressInfoToMap(info), additionalVariables);
+        String body = (webhook.getContent() == null) ? "" : webhook.getContent();
+        body = this.replaceVariables(body, info, false, true, this.addressInfoToMap(info), additionalVariables);
         try {
             if (this.debug) this.info("Sending webhook to '" + url + "'");
             HttpResponse<String> data;
@@ -174,7 +175,7 @@ public abstract class NoProxyDetector {
         }
     }
 
-    private Map<String, String> NoProxyAddressInfoToMap(NoProxyAddressInfo info) {
+    private Map<String, String> addressInfoToMap(NoProxyAddressInfo info) {
         Map<String, String> map = new HashMap<>();
         map.put("general.ip", info.getGeneral().getIp());
         map.put("general.asn", String.valueOf(info.getGeneral().getAsn()));
