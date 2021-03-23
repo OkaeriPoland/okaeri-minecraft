@@ -1,5 +1,7 @@
 package eu.okaeri.minecraft.noproxy.bukkit;
 
+import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
+import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -10,10 +12,14 @@ import java.util.List;
 public class NoProxyListener implements Listener {
 
     private final NoProxyBukkitPlugin plugin;
+    private final NoProxyConfig config;
+    private final NoProxyMessages messages;
     private final NoProxyBukkit noproxy;
 
     public NoProxyListener(NoProxyBukkitPlugin plugin) {
         this.plugin = plugin;
+        this.config = plugin.getConfiguration();
+        this.messages = plugin.getConfiguration().getMessages();
         this.noproxy = plugin.getNoproxy();
     }
 
@@ -23,7 +29,7 @@ public class NoProxyListener implements Listener {
         String name = event.getName();
         String address = event.getAddress().getHostAddress();
 
-        List<String> whitelist = this.plugin.getConfig().getStringList("white-list");
+        List<String> whitelist = this.config.getWhitelist();
         if (whitelist.contains(name) || whitelist.contains(address)) {
             return;
         }
@@ -33,6 +39,6 @@ public class NoProxyListener implements Listener {
         }
 
         event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
-        event.setKickMessage(this.plugin.message("player-info"));
+        event.setKickMessage(this.messages.getPlayerInfo());
     }
 }
