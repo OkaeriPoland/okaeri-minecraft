@@ -1,5 +1,6 @@
 package eu.okaeri.minecraft.noproxy.bukkit;
 
+import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.bukkit.BukkitConfigurer;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.sdk.noproxy.NoProxyClient;
@@ -59,11 +60,12 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         // initialize configuration
         NoProxyConfig config;
         try {
-            config = (NoProxyConfig) new NoProxyConfig()
-                    .withBindFile(new File(this.getDataFolder(), "config.yml"))
-                    .withConfigurer(new BukkitConfigurer())
-                    .saveDefaults()
-                    .load(true);
+            config = ConfigManager.create(NoProxyConfig.class, (it) -> {
+                it.withBindFile(new File(this.getDataFolder(), "config.yml"));
+                it.withConfigurer(new BukkitConfigurer());
+                it.saveDefaults();
+                it.load(true);
+            });
         } catch (Exception exception) {
             this.getLogger().log(Level.SEVERE, "Failed to load config.yml", exception);
             this.getServer().getPluginManager().disablePlugin(this);
