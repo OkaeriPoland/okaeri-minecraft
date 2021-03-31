@@ -33,9 +33,8 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
     public void onEnable() {
 
         // initialize configuration
-        NoProxyConfig config;
         try {
-            config = ConfigManager.create(NoProxyConfig.class, (it) -> {
+            this.configuration = ConfigManager.create(NoProxyConfig.class, (it) -> {
                 it.withBindFile(new File(this.getDataFolder(), "config.yml"));
                 it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
                 it.saveDefaults();
@@ -48,7 +47,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         }
 
         // validate token
-        String token = config.getToken();
+        String token = this.configuration.getToken();
         if ((token == null) || "".equals(token)) {
             this.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
             ConfigurationNotifier notifier = new ConfigurationNotifier(this);
@@ -64,7 +63,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         this.noproxy = new NoProxyBukkit(this);
 
         // webhook config
-        config.getWebhooks().forEach(this.noproxy::addWebhook);
+        this.configuration.getWebhooks().forEach(this.noproxy::addWebhook);
 
         // register injectables
         this.injector.registerInjectable(this);
