@@ -21,6 +21,8 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
+import eu.okaeri.validator.annotation.Pattern;
+import eu.okaeri.validator.annotation.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,8 +30,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class NoProxyWebhook extends OkaeriConfig {
-    private String url;
-    private String method = "GET";
+    @Size(min = 1) private String url;
+    @Pattern("GET|POST") private String method = "GET";
     private String content = "";
     private boolean blockedOnly = true;
 }

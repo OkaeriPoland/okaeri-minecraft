@@ -24,6 +24,7 @@ import eu.okaeri.sdk.noproxy.model.NoProxyError;
 import eu.okaeri.sdk.unirest.HttpResponse;
 import eu.okaeri.sdk.unirest.Unirest;
 import eu.okaeri.sdk.unirest.UnirestInstance;
+import lombok.Getter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,21 +42,17 @@ public abstract class NoProxyDetector {
             .connectTimeout(5000)
             .socketTimeout(5000));
 
-    private final NoProxyClient client;
+    @Getter private final NoProxyClient client;
     private final boolean debug = Boolean.getBoolean("noproxyDebug");
     private final boolean webhookAlways = Boolean.getBoolean("noproxyWebhookAlways");
 
+    @Getter private final Set<NoProxyWebhook> webhooks = new HashSet<>();
     private final Map<String, NoProxyAddressInfo> infoMap = new ConcurrentHashMap<>();
     private final Map<String, Long> timeMap = new ConcurrentHashMap<>();
-    private final Set<NoProxyWebhook> webhookList = new HashSet<>();
     private long nextDiscard = System.currentTimeMillis() + DATA_DISCARD_TIME;
 
     public NoProxyDetector(NoProxyClient client) {
         this.client = client;
-    }
-
-    public NoProxyClient getClient() {
-        return this.client;
     }
 
     public void addWebhook(NoProxyWebhook webhook) {
@@ -63,11 +60,7 @@ public abstract class NoProxyDetector {
         if (webhook.getUrl() == null) throw new IllegalArgumentException("webhook.url cannot be null");
         if (webhook.getMethod() == null) throw new IllegalArgumentException("webhook.method cannot be null");
         if (!"POST".equals(webhook.getMethod()) && !"GET".equals(webhook.getMethod())) throw new IllegalArgumentException("webhook.method is not POST or GET");
-        this.webhookList.add(webhook);
-    }
-
-    public Set<NoProxyWebhook> getWebhooks() {
-        return this.webhookList;
+        this.webhooks.add(webhook);
     }
 
     public boolean shouldBeBlocked(String ip, String name) {
@@ -135,8 +128,8 @@ public abstract class NoProxyDetector {
     }
 
     public void dispatchWebhooks(NoProxyAddressInfo info, boolean block, Map<String, String> additionalVariables) {
-        if (this.debug) this.info("Checking for webhooks (" + this.webhookList.size() + ")");
-        for (NoProxyWebhook webhook : this.webhookList) {
+        if (this.debug) this.info("Checking for webhooks (" + this.webhooks.size() + ")");
+        for (NoProxyWebhook webhook : this.webhooks) {
             if (this.debug) this.info("Analzying (block=" + block + "): " + webhook);
             if (webhook.isBlockedOnly()) {
                 if (block) {
