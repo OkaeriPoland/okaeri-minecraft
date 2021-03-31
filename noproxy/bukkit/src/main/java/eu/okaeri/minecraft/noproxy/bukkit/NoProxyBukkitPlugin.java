@@ -6,6 +6,7 @@ import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.OkaeriInjector;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
+import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
 import eu.okaeri.sdk.noproxy.NoProxyClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
     private NoProxyBukkit noproxy;
     private NoProxyClient client;
     private NoProxyConfig configuration;
+    private NoProxyMessages messages;
     private Injector injector = OkaeriInjector.create();
 
     @Override
@@ -36,7 +38,13 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         try {
             this.configuration = ConfigManager.create(NoProxyConfig.class, (it) -> {
                 it.withBindFile(new File(this.getDataFolder(), "config.yml"));
-                it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
+                it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer(), true));
+                it.saveDefaults();
+                it.load(true);
+            });
+            this.messages = ConfigManager.create(NoProxyMessages.class, (it) -> {
+                it.withBindFile(new File(this.getDataFolder(), "messages.yml"));
+                it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer(), true));
                 it.saveDefaults();
                 it.load(true);
             });
@@ -48,7 +56,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
 
         // validate token
         String token = this.configuration.getToken();
-        if ((token == null) || "".equals(token)) {
+        if (token.isEmpty()) {
             this.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
             ConfigurationNotifier notifier = new ConfigurationNotifier(this);
             this.getServer().getPluginManager().registerEvents(notifier, this);
@@ -68,7 +76,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         // register injectables
         this.injector.registerInjectable(this);
         this.injector.registerInjectable(this.configuration);
-        this.injector.registerInjectable(this.configuration.getMessages());
+        this.injector.registerInjectable(this.messages);
         this.injector.registerInjectable(this.noproxy);
 
         // listeners
