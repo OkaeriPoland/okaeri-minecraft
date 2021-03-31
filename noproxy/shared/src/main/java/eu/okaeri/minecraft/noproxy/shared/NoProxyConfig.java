@@ -27,9 +27,6 @@ public class NoProxyConfig extends OkaeriConfig {
     @Comment({"Klucz prywatny API", "API secret"})
     private String token = "";
 
-    @Comment({"Wiadomosci", "Messages"})
-    private NoProxyMessages messages = new NoProxyMessages();
-
     @CustomKey("white-list")
     @Comment("Biala lista (wpisane nicki lub ip nie beda blokowane)")
     @Comment("Whitelist (nicknames or ips)")
