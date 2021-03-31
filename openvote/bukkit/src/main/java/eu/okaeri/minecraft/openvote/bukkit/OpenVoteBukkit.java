@@ -1,12 +1,12 @@
-package eu.okaeri.minecraft.noproxy.bukkit;
+package eu.okaeri.minecraft.openvote.bukkit;
 
-import eu.okaeri.minecraft.noproxy.shared.NoProxyService;
+import eu.okaeri.minecraft.openvote.shared.OpenVoteService;
 
-public class NoProxyBukkit extends NoProxyService {
+public class OpenVoteBukkit extends OpenVoteService {
 
-    private final NoProxyBukkitPlugin plugin;
+    private final OpenVoteBukkitPlugin plugin;
 
-    public NoProxyBukkit(NoProxyBukkitPlugin plugin) {
+    public OpenVoteBukkit(OpenVoteBukkitPlugin plugin) {
         super(plugin.getClient());
         this.plugin = plugin;
     }

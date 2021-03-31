@@ -1,13 +1,13 @@
-package eu.okaeri.minecraft.noproxy.bukkit;
+package eu.okaeri.minecraft.openvote.bukkit;
 
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.validator.okaeri.OkaeriValidator;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
 import eu.okaeri.injector.Injector;
 import eu.okaeri.injector.OkaeriInjector;
-import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
-import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
-import eu.okaeri.sdk.noproxy.NoProxyClient;
+import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
+import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
+import eu.okaeri.sdk.openvote.OpenVoteClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
@@ -23,12 +23,12 @@ import java.io.File;
 import java.util.logging.Level;
 
 @Getter
-public class NoProxyBukkitPlugin extends JavaPlugin {
+public class OpenVoteBukkitPlugin extends JavaPlugin {
 
-    private NoProxyBukkit noproxy;
-    private NoProxyClient client;
-    private NoProxyConfig configuration;
-    private NoProxyMessages messages;
+    private OpenVoteBukkit openvote;
+    private OpenVoteClient client;
+    private OpenVoteConfig configuration;
+    private OpenVoteMessages messages;
     private Injector injector = OkaeriInjector.create();
 
     @Override
@@ -36,58 +36,49 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
 
         // initialize configuration
         try {
-            this.configuration = ConfigManager.create(NoProxyConfig.class, (it) -> {
+            this.configuration = ConfigManager.create(OpenVoteConfig.class, (it) -> {
                 it.withBindFile(new File(this.getDataFolder(), "config.yml"));
                 it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer(), true));
                 it.saveDefaults();
                 it.load(true);
             });
-            this.messages = ConfigManager.create(NoProxyMessages.class, (it) -> {
+            this.messages = ConfigManager.create(OpenVoteMessages.class, (it) -> {
                 it.withBindFile(new File(this.getDataFolder(), "messages.yml"));
                 it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer(), true));
                 it.saveDefaults();
                 it.load(true);
             });
         } catch (Exception exception) {
-            this.getLogger().log(Level.SEVERE, "Failed to load config.yml", exception);
+            this.getLogger().log(Level.SEVERE, "Failed to load configuration", exception);
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
-        // validate token
-        String token = this.configuration.getToken();
-        if (token.isEmpty()) {
-            this.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
+        // validate name
+        if (OpenVoteConfig.PLACEHOLDER_SERVER.equals(this.configuration.getServer())) {
+            this.getLogger().log(Level.SEVERE, "Configuration value for 'server' was not changed in the config.yml. Please validate your config and restart the server.");
             ConfigurationNotifier notifier = new ConfigurationNotifier(this);
             this.getServer().getPluginManager().registerEvents(notifier, this);
             this.getServer().getScheduler().runTaskTimer(this, notifier::broadcast, 5 * 20, 60 * 20);
             return;
         }
 
-        // create context
-        this.client = new NoProxyClient(token);
-
-        // create noproxy
-        this.noproxy = new NoProxyBukkit(this);
-
-        // webhook config
-        this.configuration.getWebhooks().forEach(this.noproxy::addWebhook);
+        // initialize client/service
+        this.client = new OpenVoteClient();
+        this.openvote = new OpenVoteBukkit(this);
+        this.configuration.getWebhooks().forEach(this.openvote::addWebhook);
 
         // register injectables
         this.injector.registerInjectable(this);
         this.injector.registerInjectable(this.configuration);
         this.injector.registerInjectable(this.messages);
-        this.injector.registerInjectable(this.noproxy);
-
-        // listeners
-        NoProxyListener noProxyListener = this.injector.createInstance(NoProxyListener.class);
-        this.getServer().getPluginManager().registerEvents(noProxyListener, this);
+        this.injector.registerInjectable(this.openvote);
     }
 
     @AllArgsConstructor
     private static class ConfigurationNotifier implements Listener {
 
-        private static final String MESSAGE = ChatColor.RED + "NoProxy requires configuration. See config.yml for details!";
+        private static final String MESSAGE = ChatColor.RED + "OpenVote requires configuration. See config.yml for details!";
         private final JavaPlugin plugin;
 
         @EventHandler(priority = EventPriority.MONITOR)
@@ -96,7 +87,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         }
 
         public void messagePlayer(Player player) {
-            if (!player.isOp() && !player.hasPermission("noproxy.notify")) {
+            if (!player.isOp() && !player.hasPermission("openvote.notify")) {
                 return;
             }
             player.sendMessage(MESSAGE);

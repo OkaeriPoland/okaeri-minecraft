@@ -1,0 +1,5 @@
+name: OpenVote
+version: ${project.version}-git-${git.commit.id.abbrev}
+main: eu.okaeri.minecraft.openvote.bukkit.OpenVotePlugin
+description: 'OK! OpenVote Minecraft (Bukkit)'
+author: 'Dawid Sawicki <dawid@okaeri.eu>'
