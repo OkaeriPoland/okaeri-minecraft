@@ -109,7 +109,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
     }
 
     protected String message(String message, String... params) {
-        message = message.replace("{PREFIX}", this.configuration.getMessages().getPrefix());
+        message = message.replace("{PREFIX}", this.messages.getPrefix());
         message = ChatColor.translateAlternateColorCodes('&', message);
         for (int i = 0; i < params.length; i++) {
             message = message.replace("{" + i + "}", params[i]);
