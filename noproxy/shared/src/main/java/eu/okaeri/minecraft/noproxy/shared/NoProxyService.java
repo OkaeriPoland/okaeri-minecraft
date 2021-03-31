@@ -32,7 +32,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public abstract class NoProxyDetector {
+public abstract class NoProxyService {
 
     private static final long DATA_DISCARD_TIME = TimeUnit.SECONDS.toMillis(60);
     private static final UnirestInstance UNIREST_INSTANCE = new UnirestInstance(Unirest.config()
@@ -51,7 +51,7 @@ public abstract class NoProxyDetector {
     private final Map<String, Long> timeMap = new ConcurrentHashMap<>();
     private long nextDiscard = System.currentTimeMillis() + DATA_DISCARD_TIME;
 
-    public NoProxyDetector(NoProxyClient client) {
+    public NoProxyService(NoProxyClient client) {
         this.client = client;
     }
 
@@ -145,9 +145,9 @@ public abstract class NoProxyDetector {
         if (this.debug) this.info("Preparing webhook for " + webhook);
         if (webhook.getUrl() == null) throw new IllegalArgumentException("webhook.url cannot be null");
         String method = (webhook.getMethod() == null) ? "GET" : webhook.getMethod();
-        String url = this.replaceVariables(webhook.getUrl(), info, true, false, this.addressInfoToMap(info), additionalVariables);
+        String url = this.replaceVariables(webhook.getUrl(), true, false, this.addressInfoToMap(info), additionalVariables);
         String body = (webhook.getContent() == null) ? "" : webhook.getContent();
-        body = this.replaceVariables(body, info, false, true, this.addressInfoToMap(info), additionalVariables);
+        body = this.replaceVariables(body, false, true, this.addressInfoToMap(info), additionalVariables);
         try {
             if (this.debug) this.info("Sending webhook to '" + url + "'");
             HttpResponse<String> data;
@@ -187,7 +187,7 @@ public abstract class NoProxyDetector {
     }
 
     @SafeVarargs
-    private final String replaceVariables(String text, NoProxyAddressInfo info, boolean urlEncode, boolean quotesEscape, Map<String, String>... variableSets) {
+    private final String replaceVariables(String text, boolean urlEncode, boolean quotesEscape, Map<String, String>... variableSets) {
         for (Map<String, String> variables : variableSets) {
             for (Map.Entry<String, String> entry : variables.entrySet()) {
                 String key = entry.getKey();
