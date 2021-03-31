@@ -55,12 +55,20 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
                         <relocation>
+                            <pattern>eu.okaeri.validator.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.validator.</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>eu.okaeri.injector.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.injector.</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>eu.okaeri.configs.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.noproxy.bukkit.configs.</shadedPattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.configs.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>eu.okaeri.sdk.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.noproxy.bukkit.sdk.</shadedPattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.sdk.</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -77,7 +85,7 @@
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-yaml-bukkit</artifactId>
-            <version>2.0.0</version>
+            <version>2.3.4</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

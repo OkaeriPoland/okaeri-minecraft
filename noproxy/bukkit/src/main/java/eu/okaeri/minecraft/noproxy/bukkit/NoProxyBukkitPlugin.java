@@ -1,9 +1,13 @@
 package eu.okaeri.minecraft.noproxy.bukkit;
 
 import eu.okaeri.configs.ConfigManager;
-import eu.okaeri.configs.bukkit.BukkitConfigurer;
+import eu.okaeri.configs.validator.okaeri.OkaeriValidator;
+import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
+import eu.okaeri.injector.Injector;
+import eu.okaeri.injector.OkaeriInjector;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.sdk.noproxy.NoProxyClient;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -23,36 +27,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
     private NoProxyBukkit noproxy;
     private NoProxyClient client;
     private NoProxyConfig configuration;
-
-    private class ConfigurationNotifier implements Listener {
-
-        private final NoProxyBukkitPlugin plugin;
-        private String updateMessage = ChatColor.RED + NoProxyBukkitPlugin.super.getName() + " requires configuration. See config.yml for details!";
-
-        public ConfigurationNotifier(NoProxyBukkitPlugin plugin) {
-            this.plugin = plugin;
-        }
-
-        @EventHandler(priority = EventPriority.MONITOR)
-        public void onJoin(PlayerJoinEvent event) {
-            Bukkit.getScheduler().runTaskLater(this.plugin, () -> this.messagePlayer(event.getPlayer()), 5 * 20);
-        }
-
-        public void messagePlayer(Player player) {
-            if (!player.isOp() && !player.hasPermission("noproxy.notify")) {
-                return;
-            }
-            player.sendMessage(this.updateMessage);
-        }
-
-        public void messageAdmins() {
-            Bukkit.getOnlinePlayers().forEach(this::messagePlayer);
-        }
-
-        public void logToConsole() {
-            Bukkit.getConsoleSender().sendMessage(this.updateMessage);
-        }
-    }
+    private Injector injector = OkaeriInjector.create();
 
     @Override
     public void onEnable() {
@@ -62,7 +37,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         try {
             config = ConfigManager.create(NoProxyConfig.class, (it) -> {
                 it.withBindFile(new File(this.getDataFolder(), "config.yml"));
-                it.withConfigurer(new BukkitConfigurer());
+                it.withConfigurer(new OkaeriValidator(new YamlBukkitConfigurer()));
                 it.saveDefaults();
                 it.load(true);
             });
@@ -78,8 +53,7 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
             this.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
             ConfigurationNotifier notifier = new ConfigurationNotifier(this);
             this.getServer().getPluginManager().registerEvents(notifier, this);
-            this.getServer().getScheduler().runTaskTimer(this, notifier::messageAdmins, 20, 60 * 20);
-            this.getServer().getScheduler().runTaskLater(this, notifier::logToConsole, 5 * 20);
+            this.getServer().getScheduler().runTaskTimer(this, notifier::broadcast, 5 * 20, 60 * 20);
             return;
         }
 
@@ -92,8 +66,39 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         // webhook config
         config.getWebhooks().forEach(this.noproxy::addWebhook);
 
+        // register injectables
+        this.injector.registerInjectable(this);
+        this.injector.registerInjectable(this.configuration);
+        this.injector.registerInjectable(this.configuration.getMessages());
+        this.injector.registerInjectable(this.noproxy);
+
         // listeners
-        this.getServer().getPluginManager().registerEvents(new NoProxyListener(this), this);
+        NoProxyListener noProxyListener = this.injector.createInstance(NoProxyListener.class);
+        this.getServer().getPluginManager().registerEvents(noProxyListener, this);
+    }
+
+    @AllArgsConstructor
+    private static class ConfigurationNotifier implements Listener {
+
+        private static final String MESSAGE = ChatColor.RED + "NoProxy requires configuration. See config.yml for details!";
+        private final NoProxyBukkitPlugin plugin;
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onJoin(PlayerJoinEvent event) {
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> this.messagePlayer(event.getPlayer()), 5 * 20);
+        }
+
+        public void messagePlayer(Player player) {
+            if (!player.isOp() && !player.hasPermission("noproxy.notify")) {
+                return;
+            }
+            player.sendMessage(MESSAGE);
+        }
+
+        public void broadcast() {
+            Bukkit.getOnlinePlayers().forEach(this::messagePlayer);
+            Bukkit.getConsoleSender().sendMessage(MESSAGE);
+        }
     }
 
     protected String message(String message, String... params) {
