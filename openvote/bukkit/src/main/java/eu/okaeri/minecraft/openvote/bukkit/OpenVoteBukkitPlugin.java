@@ -66,7 +66,7 @@ public class OpenVoteBukkitPlugin extends JavaPlugin {
         // initialize client/service
         this.client = new OpenVoteClient();
         this.openvote = new OpenVoteBukkit(this);
-        this.configuration.getWebhooks().forEach(this.openvote::addWebhook);
+        if (this.configuration.isEnableWebhooks()) this.configuration.getWebhooks().forEach(this.openvote::addWebhook);
 
         // register injectables
         this.injector.registerInjectable(this);
