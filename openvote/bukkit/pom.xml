@@ -97,6 +97,11 @@
             <version>0.1.1</version>
         </dependency>
         <dependency>
+            <groupId>eu.okaeri</groupId>
+            <artifactId>okaeri-commands-injector</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
