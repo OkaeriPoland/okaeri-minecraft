@@ -67,6 +67,10 @@
                             <shadedPattern>eu.okaeri.minecraft.noproxy.configs.</shadedPattern>
                         </relocation>
                         <relocation>
+                            <pattern>eu.okaeri.commands.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.commands.</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>eu.okaeri.sdk.</pattern>
                             <shadedPattern>eu.okaeri.minecraft.noproxy.sdk.</shadedPattern>
                         </relocation>
@@ -86,6 +90,11 @@
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-yaml-bukkit</artifactId>
             <version>2.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.okaeri</groupId>
+            <artifactId>okaeri-commands-bukkit</artifactId>
+            <version>0.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
