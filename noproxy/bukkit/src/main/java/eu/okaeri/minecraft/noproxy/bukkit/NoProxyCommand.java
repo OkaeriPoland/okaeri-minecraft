@@ -39,7 +39,7 @@ public class NoProxyCommand implements CommandService {
     @Inject private NoProxyMessages messages;
     @Inject private NoProxyBukkit noproxy;
 
-    @Executor(async = true)
+    @Executor(async = true, description = "reloads the configuration")
     public BukkitResponse reload() {
 
         try {
