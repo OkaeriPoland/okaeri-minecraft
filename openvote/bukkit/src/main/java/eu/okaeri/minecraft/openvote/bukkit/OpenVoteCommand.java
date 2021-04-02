@@ -35,7 +35,6 @@ import java.util.UUID;
 @ServiceDescriptor(label = "openvote", description = "OpenVote admin command")
 public class OpenVoteCommand implements CommandService {
 
-    @Inject private OpenVoteBukkitPlugin plugin;
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
 

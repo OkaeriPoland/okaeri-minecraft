@@ -34,7 +34,6 @@ import eu.okaeri.sdk.noproxy.NoProxyClient;
 @ServiceDescriptor(label = "noproxy", description = "NoProxy admin command")
 public class NoProxyCommand implements CommandService {
 
-    @Inject private NoProxyBukkitPlugin plugin;
     @Inject private NoProxyConfig config;
     @Inject private NoProxyMessages messages;
     @Inject private NoProxyBukkit noproxy;
