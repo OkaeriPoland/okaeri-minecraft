@@ -29,6 +29,8 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 
+import java.util.UUID;
+
 @Permission("openvote.admin")
 @ServiceDescriptor(label = "openvote", description = "OpenVote admin command")
 public class OpenVoteCommand implements CommandService {
@@ -37,7 +39,7 @@ public class OpenVoteCommand implements CommandService {
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
 
-    @Executor(async = true)
+    @Executor(async = true, description = "reloads the configuration")
     public BukkitResponse reload() {
 
         try {
@@ -48,5 +50,15 @@ public class OpenVoteCommand implements CommandService {
         }
 
         return SuccessResponse.of("The configuration has been reloaded!");
+    }
+
+    @Permission("openvote.admin.reset")
+    @Executor(async = true, description = "resets secret token and statistics")
+    public BukkitResponse reset() {
+
+        this.config.setStatsId(String.valueOf(UUID.randomUUID()));
+        this.config.save();
+
+        return SuccessResponse.of("The plugin's stats id has been reset!");
     }
 }
