@@ -17,6 +17,8 @@
  */
 package eu.okaeri.minecraft.openvote.bukkit;
 
+import eu.okaeri.commands.CommandsManager;
+import eu.okaeri.commands.bukkit.CommandsBukkit;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.validator.okaeri.OkaeriValidator;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
@@ -84,6 +86,10 @@ public class OpenVoteBukkitPlugin extends JavaPlugin {
         this.client = new OpenVoteClient();
         this.openvote = new OpenVoteBukkit(this);
         if (this.configuration.isEnableWebhooks()) this.configuration.getWebhooks().forEach(this.openvote::addWebhook);
+
+        // commands
+        CommandsManager.create(new CommandsBukkit(this))
+                .register(this.injector.createInstance(OpenVoteCommand.class));
 
         // register injectables
         this.injector.registerInjectable(this);

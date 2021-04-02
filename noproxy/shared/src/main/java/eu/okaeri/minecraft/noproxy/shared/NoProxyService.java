@@ -25,6 +25,7 @@ import eu.okaeri.sdk.unirest.HttpResponse;
 import eu.okaeri.sdk.unirest.Unirest;
 import eu.okaeri.sdk.unirest.UnirestInstance;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -42,7 +43,7 @@ public abstract class NoProxyService {
             .connectTimeout(5000)
             .socketTimeout(5000));
 
-    @Getter private final NoProxyClient client;
+    @Getter @Setter private NoProxyClient client;
     private final boolean debug = Boolean.getBoolean("noproxyDebug");
     private final boolean webhookAlways = Boolean.getBoolean("noproxyWebhookAlways");
 

@@ -17,6 +17,8 @@
  */
 package eu.okaeri.minecraft.noproxy.bukkit;
 
+import eu.okaeri.commands.CommandsManager;
+import eu.okaeri.commands.bukkit.CommandsBukkit;
 import eu.okaeri.configs.ConfigManager;
 import eu.okaeri.configs.validator.okaeri.OkaeriValidator;
 import eu.okaeri.configs.yaml.bukkit.YamlBukkitConfigurer;
@@ -81,13 +83,9 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
             return;
         }
 
-        // create context
+        // noproxy setup
         this.client = new NoProxyClient(token);
-
-        // create noproxy
         this.noproxy = new NoProxyBukkit(this);
-
-        // webhook config
         this.configuration.getWebhooks().forEach(this.noproxy::addWebhook);
 
         // register injectables
@@ -95,6 +93,10 @@ public class NoProxyBukkitPlugin extends JavaPlugin {
         this.injector.registerInjectable(this.configuration);
         this.injector.registerInjectable(this.messages);
         this.injector.registerInjectable(this.noproxy);
+
+        // commands
+        CommandsManager.create(new CommandsBukkit(this))
+                .register(this.injector.createInstance(NoProxyCommand.class));
 
         // listeners
         NoProxyListener noProxyListener = this.injector.createInstance(NoProxyListener.class);
