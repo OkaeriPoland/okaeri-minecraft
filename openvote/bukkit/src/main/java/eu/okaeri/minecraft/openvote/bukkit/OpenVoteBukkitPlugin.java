@@ -56,7 +56,7 @@ public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
     }
 
     @Bean
-    private OpenVoteBukkit configureService(OpenVoteConfig config, OpenVoteBukkitPlugin plugin, OpenVoteClient client, StringBuilder test) {
+    private OpenVoteBukkit configureService(OpenVoteConfig config, OpenVoteBukkitPlugin plugin, OpenVoteClient client) {
 
         // validate name
         if (OpenVoteConfig.PLACEHOLDER_SERVER.equals(config.getServer())) {
