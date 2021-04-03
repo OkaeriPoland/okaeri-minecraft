@@ -2,8 +2,10 @@ package eu.okaeri.minecraft.noproxy.bukkit;
 
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
+import eu.okaeri.platform.core.annotation.Component;
 import net.md_5.bungee.api.ChatColor;
 
+@Component
 public class NoProxyMessager {
 
     @Inject private NoProxyMessages messages;

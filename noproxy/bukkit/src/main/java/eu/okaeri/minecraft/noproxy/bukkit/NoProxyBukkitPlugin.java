@@ -21,22 +21,79 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
 import eu.okaeri.platform.bukkit.OkaeriBukkitPlugin;
-import eu.okaeri.platform.core.annotation.WithBean;
+import eu.okaeri.platform.core.annotation.Bean;
+import eu.okaeri.platform.core.annotation.Register;
+import eu.okaeri.platform.core.exception.BreakException;
 import eu.okaeri.sdk.noproxy.NoProxyClient;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.logging.Level;
 
 @Getter
 @Setter(AccessLevel.PROTECTED)
-@WithBean(NoProxyConfig.class) // load config
-@WithBean(NoProxyConfigurer.class) // check config and create client/noproxy
-@WithBean(NoProxyMessages.class) // load messages
-@WithBean(NoProxyMessager.class) // create messager helper
-@WithBean(NoProxyCommand.class) // register admin command
-@WithBean(NoProxyListener.class) // register listener
+@Register(NoProxyConfig.class) // load config
+@Register(NoProxyMessages.class) // load messages
+@Register(NoProxyMessager.class) // create messager helper
+@Register(NoProxyCommand.class) // register admin command
+@Register(NoProxyListener.class) // register listener
 public class NoProxyBukkitPlugin extends OkaeriBukkitPlugin {
-    // expose as api
+
     @Inject private NoProxyClient client;
     @Inject private NoProxyBukkit noproxy;
+
+    @Bean
+    private NoProxyClient configureClient(NoProxyBukkitPlugin plugin, NoProxyConfig config) {
+
+        String token = config.getToken();
+        if (!token.isEmpty()) {
+            return new NoProxyClient(token);
+        }
+
+        plugin.getLogger().log(Level.SEVERE, "Configuration value for 'token' was not found in the config.yml. Please validate your config and restart the server.");
+        ConfigurationNotifier notifier = new ConfigurationNotifier(plugin);
+        plugin.getServer().getPluginManager().registerEvents(notifier, plugin);
+        plugin.getServer().getScheduler().runTaskTimer(plugin, notifier::broadcast, 5 * 20, 60 * 20);
+        throw new BreakException("Failed to initialize NoProxy, token not set");
+    }
+
+    @Bean
+    private NoProxyBukkit configureService(NoProxyBukkitPlugin plugin, NoProxyConfig config, NoProxyClient client) {
+        NoProxyBukkit noproxy = new NoProxyBukkit(plugin, client);
+        config.getWebhooks().forEach(noproxy::addWebhook);
+        return noproxy;
+    }
+
+    @AllArgsConstructor
+    private static class ConfigurationNotifier implements Listener {
+
+        private static final String MESSAGE = ChatColor.RED + "NoProxy requires configuration. Update config.yml and restart the server!";
+        private final org.bukkit.plugin.java.JavaPlugin plugin;
+
+        @EventHandler(priority = EventPriority.MONITOR)
+        public void onJoin(PlayerJoinEvent event) {
+            Bukkit.getScheduler().runTaskLater(this.plugin, () -> this.messagePlayer(event.getPlayer()), 5 * 20);
+        }
+
+        public void messagePlayer(Player player) {
+            if (!player.isOp() && !player.hasPermission("noproxy.notify")) {
+                return;
+            }
+            player.sendMessage(MESSAGE);
+        }
+
+        public void broadcast() {
+            Bukkit.getOnlinePlayers().forEach(this::messagePlayer);
+            Bukkit.getConsoleSender().sendMessage(MESSAGE);
+        }
+    }
 }
