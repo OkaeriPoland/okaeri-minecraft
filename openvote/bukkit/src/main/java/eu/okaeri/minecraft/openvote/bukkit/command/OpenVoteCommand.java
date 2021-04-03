@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.okaeri.minecraft.openvote.bukkit;
+package eu.okaeri.minecraft.openvote.bukkit.command;
 
 import eu.okaeri.commands.annotation.Executor;
 import eu.okaeri.commands.annotation.ServiceDescriptor;

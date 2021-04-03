@@ -32,6 +32,7 @@ public class NoProxyListener implements Listener {
     @Inject private NoProxyConfig config;
     @Inject private NoProxyMessages messages;
     @Inject private NoProxyBukkit noproxy;
+    @Inject private NoProxyMessager messager;
 
     @EventHandler(priority = EventPriority.LOW)
     public void handlePreLogin(AsyncPlayerPreLoginEvent event) {
@@ -49,6 +50,6 @@ public class NoProxyListener implements Listener {
         }
 
         event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
-        event.setKickMessage(this.messages.getPlayerInfo());
+        event.setKickMessage(this.messager.format(this.messages.getPlayerInfo()));
     }
 }
