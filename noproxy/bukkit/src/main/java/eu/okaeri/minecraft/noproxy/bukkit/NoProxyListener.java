@@ -20,6 +20,7 @@ package eu.okaeri.minecraft.noproxy.bukkit;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
+import eu.okaeri.platform.core.annotation.Component;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -27,6 +28,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.List;
 
+@Component
 public class NoProxyListener implements Listener {
 
     @Inject private NoProxyConfig config;

@@ -2,8 +2,10 @@ package eu.okaeri.minecraft.openvote.bukkit;
 
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
+import eu.okaeri.platform.core.annotation.Component;
 import net.md_5.bungee.api.ChatColor;
 
+@Component
 public class OpenVoteMessager {
 
     @Inject private OpenVoteMessages messages;
