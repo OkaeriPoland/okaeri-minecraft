@@ -71,6 +71,10 @@
                             <shadedPattern>eu.okaeri.minecraft.openvote.commands.</shadedPattern>
                         </relocation>
                         <relocation>
+                            <pattern>eu.okaeri.platform.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.openvote.platform.</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>eu.okaeri.sdk.</pattern>
                             <shadedPattern>eu.okaeri.minecraft.openvote.sdk.</shadedPattern>
                         </relocation>
@@ -88,18 +92,8 @@
         </dependency>
         <dependency>
             <groupId>eu.okaeri</groupId>
-            <artifactId>okaeri-configs-yaml-bukkit</artifactId>
-            <version>2.3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.okaeri</groupId>
-            <artifactId>okaeri-commands-bukkit</artifactId>
-            <version>0.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>eu.okaeri</groupId>
-            <artifactId>okaeri-commands-injector</artifactId>
-            <version>0.1.1</version>
+            <artifactId>okaeri-platform-bukkit</artifactId>
+            <version>0.0.7</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

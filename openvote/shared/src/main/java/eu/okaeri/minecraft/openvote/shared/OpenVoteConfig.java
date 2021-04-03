@@ -19,18 +19,21 @@ package eu.okaeri.minecraft.openvote.shared;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
+import eu.okaeri.platform.core.annotation.Configuration;
 import eu.okaeri.validator.annotation.Min;
 import eu.okaeri.validator.annotation.Pattern;
 import eu.okaeri.validator.annotation.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Configuration(path = "config.yml")
 @Header("################################################################")
 @Header("#                                                              #")
 @Header("#    OK! OpenVote Minecraft                                    #")
@@ -130,6 +133,7 @@ public class OpenVoteConfig extends OkaeriConfig {
 
     @Comment("CZY WEBHOOKI MAJA BYC WLACZONE?")
     @Comment("Wymagana konfiguracja w sekcji webhooks.")
+    @Comment(" ")
     @Comment("SHALL WEBHOOKS BE ENABLED?")
     @Comment("Configuration required. See webhooks section.")
     private boolean enableWebhooks = false;
@@ -143,7 +147,7 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("Variables:")
     @Comment("   {player} - player nickname")
     @Comment("   {list} - list name")
-    private List<OpenVoteWebhook> webhooks; {
+    private List<OpenVoteWebhook> webhooks = new ArrayList<>(); {
         // polish
         OpenVoteWebhook webhookPolish = new OpenVoteWebhook();
         webhookPolish.setUrl("https://discord.com/api/webhooks/x/y");

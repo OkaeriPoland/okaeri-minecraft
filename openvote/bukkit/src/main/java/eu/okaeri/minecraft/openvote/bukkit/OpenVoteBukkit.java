@@ -18,13 +18,15 @@
 package eu.okaeri.minecraft.openvote.bukkit;
 
 import eu.okaeri.minecraft.openvote.shared.OpenVoteService;
+import eu.okaeri.sdk.openvote.OpenVoteClient;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class OpenVoteBukkit extends OpenVoteService {
 
-    private final OpenVoteBukkitPlugin plugin;
+    private final JavaPlugin plugin;
 
-    public OpenVoteBukkit(OpenVoteBukkitPlugin plugin) {
-        super(plugin.getClient());
+    public OpenVoteBukkit(JavaPlugin plugin, OpenVoteClient client) {
+        super(client);
         this.plugin = plugin;
     }
 

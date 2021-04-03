@@ -18,13 +18,15 @@
 package eu.okaeri.minecraft.noproxy.bukkit;
 
 import eu.okaeri.minecraft.noproxy.shared.NoProxyService;
+import eu.okaeri.sdk.noproxy.NoProxyClient;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class NoProxyBukkit extends NoProxyService {
 
-    private final NoProxyBukkitPlugin plugin;
+    private final JavaPlugin plugin;
 
-    public NoProxyBukkit(NoProxyBukkitPlugin plugin) {
-        super(plugin.getClient());
+    public NoProxyBukkit(JavaPlugin plugin, NoProxyClient client) {
+        super(client);
         this.plugin = plugin;
     }
 

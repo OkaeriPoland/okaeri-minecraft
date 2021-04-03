@@ -37,6 +37,7 @@ public class NoProxyCommand implements CommandService {
     @Inject private NoProxyConfig config;
     @Inject private NoProxyMessages messages;
     @Inject private NoProxyBukkit noproxy;
+    @Inject private NoProxyBukkitPlugin plugin;
 
     @Executor(async = true, description = "reloads the configuration")
     public BukkitResponse reload() {
@@ -50,7 +51,9 @@ public class NoProxyCommand implements CommandService {
 
         String token = this.config.getToken();
         if (!token.isEmpty()) {
-            this.noproxy.setClient(new NoProxyClient(token));
+            NoProxyClient client = new NoProxyClient(token);
+            this.noproxy.setClient(client);
+            this.plugin.setClient(client);
         }
 
         return SuccessResponse.of("The configuration has been reloaded!");

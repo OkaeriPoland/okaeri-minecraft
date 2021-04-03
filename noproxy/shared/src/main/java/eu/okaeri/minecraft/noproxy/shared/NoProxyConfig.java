@@ -19,6 +19,7 @@ package eu.okaeri.minecraft.noproxy.shared;
 
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
+import eu.okaeri.platform.core.annotation.Configuration;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,6 +28,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Configuration(path = "config.yml")
 @Header("################################################################")
 @Header("#                                                              #")
 @Header("#    OK! No.Proxy Minecraft                                    #")
