@@ -20,6 +20,7 @@ package eu.okaeri.minecraft.openvote.bukkit;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.command.OpenVoteCommand;
 import eu.okaeri.minecraft.openvote.bukkit.command.VoteCommand;
+import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.bukkit.vote.VotesUpdateTask;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
@@ -38,6 +39,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 @Getter
@@ -54,6 +57,11 @@ public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
     @Bean
     private OpenVoteClient configureClient() {
         return new OpenVoteClient();
+    }
+
+    @Bean("awaitingVotes")
+    private Set<AwaitingVote> createAwaitingVotes() {
+        return new HashSet<>();
     }
 
     @Bean

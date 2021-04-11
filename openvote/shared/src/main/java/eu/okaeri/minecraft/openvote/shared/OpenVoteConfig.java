@@ -23,17 +23,17 @@ import eu.okaeri.platform.core.annotation.Configuration;
 import eu.okaeri.validator.annotation.Min;
 import eu.okaeri.validator.annotation.Pattern;
 import eu.okaeri.validator.annotation.Size;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Configuration(path = "config.yml")
+@Getter
+@Setter
+@Configuration
 @Header("################################################################")
 @Header("#                                                              #")
 @Header("#    OK! OpenVote Minecraft                                    #")
@@ -214,7 +214,7 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment(" ")
     @Comment("In case of a leak or leak suspicion, change the value ASAP")
     @Comment("for the new random UUID, you can use a build-in \"/openvote reset\".")
-    private String statsId = String.valueOf(UUID.randomUUID());
+    private UUID statsId = UUID.randomUUID();
 
     @Comment({"Nie edytuj tej wartosci", "Do not edit"})
     private int version = 1;

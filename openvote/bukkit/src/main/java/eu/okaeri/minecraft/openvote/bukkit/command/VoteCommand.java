@@ -26,10 +26,12 @@ import eu.okaeri.commands.bukkit.response.ColorResponse;
 import eu.okaeri.commands.bukkit.response.ErrorResponse;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.injector.annotation.Inject;
+import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 
 import java.util.List;
+import java.util.Set;
 
 @Permission("openvote.vote")
 @ServiceDescriptor(label = "vote", aliases = "glosuj", description = "OpenVote user command")
@@ -37,6 +39,7 @@ public class VoteCommand implements CommandService {
 
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
+    @Inject("awaitingVotes") private Set<AwaitingVote> awaitingVotes;
 
     @Executor(pattern = {"list", "lists"}, description = "displays all lists available for voting")
     public BukkitResponse lists() {

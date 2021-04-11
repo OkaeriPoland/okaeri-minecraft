@@ -10,4 +10,5 @@ import java.util.UUID;
 public class AwaitingVote {
     private UUID id;
     private UUID player;
+    private String list;
 }
