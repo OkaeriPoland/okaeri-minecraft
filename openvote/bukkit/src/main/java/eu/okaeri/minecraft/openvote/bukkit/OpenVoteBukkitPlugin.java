@@ -20,6 +20,7 @@ package eu.okaeri.minecraft.openvote.bukkit;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.command.OpenVoteCommand;
 import eu.okaeri.minecraft.openvote.bukkit.command.VoteCommand;
+import eu.okaeri.minecraft.openvote.bukkit.vote.VotesUpdateTask;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 import eu.okaeri.platform.bukkit.OkaeriBukkitPlugin;
@@ -42,7 +43,7 @@ import java.util.logging.Level;
 @Getter
 @Register(OpenVoteConfig.class) // load config
 @Register(OpenVoteMessages.class) // load messages
-@Register(OpenVoteMessager.class) // create messager helper
+@Register(VotesUpdateTask.class) // update votes states
 @Register(OpenVoteCommand.class) // create admin command
 @Register(VoteCommand.class) // create user command
 public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {

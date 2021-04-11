@@ -55,28 +55,9 @@
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
                         <relocation>
-                            <pattern>eu.okaeri.validator.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.validator.</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri.injector.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.injector.</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri.configs.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.configs.</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri.commands.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.commands.</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri.platform.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.platform.</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>eu.okaeri.sdk.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.openvote.sdk.</shadedPattern>
+                            <pattern>^eu\/okaeri\/(?!minecraft)(.*)$</pattern>
+                            <shadedPattern>eu/okaeri/minecraft/openvote/lib/$1</shadedPattern>
+                            <rawString>true</rawString>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -93,7 +74,7 @@
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-platform-bukkit</artifactId>
-            <version>0.0.10</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
