@@ -17,18 +17,24 @@
  */
 package eu.okaeri.minecraft.openvote.shared;
 
-import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.NameModifier;
 import eu.okaeri.configs.annotation.NameStrategy;
 import eu.okaeri.configs.annotation.Names;
-import eu.okaeri.platform.core.annotation.Configuration;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import eu.okaeri.i18n.configs.LocaleConfig;
+import eu.okaeri.platform.core.annotation.Messages;
+import lombok.Getter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Configuration(path = "messages.yml")
+@Getter
+@Messages
 @Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
-public class OpenVoteMessages extends OkaeriConfig {
+public class OpenVoteMessages extends LocaleConfig {
+
     private String prefix = "&f&lOpenVote&7: ";
+
+    private String commandsOpenvoteReloadDescription = "reloads the config";
+    private String commandsOpenvoteReloadSuccess = "&cThe configuration reloaded.";
+    private String commandsOpenvoteReloadFail = "&cError during reload! More information in the console.";
+
+    private String commandsOpenvoteResetDescription = "resets secret token and statistics";
+    private String commandsOpenvoteResetSuccess = "&aThe plugin's stats id has been reset!";
 }

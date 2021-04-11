@@ -20,16 +20,18 @@ package eu.okaeri.minecraft.openvote.bukkit.command;
 import eu.okaeri.commands.annotation.Executor;
 import eu.okaeri.commands.annotation.ServiceDescriptor;
 import eu.okaeri.commands.bukkit.annotation.Permission;
-import eu.okaeri.commands.bukkit.response.BukkitResponse;
-import eu.okaeri.commands.bukkit.response.SuccessResponse;
-import eu.okaeri.commands.service.CommandException;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.configs.exception.OkaeriException;
+import eu.okaeri.i18n.message.Message;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
+import eu.okaeri.platform.bukkit.commons.i18n.BI18n;
+import org.bukkit.command.CommandSender;
 
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Permission("openvote.admin")
 @ServiceDescriptor(label = "openvote", description = "OpenVote admin command")
@@ -37,27 +39,30 @@ public class OpenVoteCommand implements CommandService {
 
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
+    @Inject private Logger logger;
+    @Inject private BI18n i18n;
 
-    @Executor(async = true, description = "reloads the configuration")
-    public BukkitResponse reload() {
+    @Executor(async = true, description = "!commands-openvote-reload-description")
+    public Message reload(CommandSender sender) {
 
         try {
             this.config.load();
-            this.messages.load();
+            this.i18n.load();
         } catch (OkaeriException exception) {
-            throw new CommandException("Reload failed. See more in the console.", exception);
+            this.logger.log(Level.SEVERE, "Failed to reload configuration", exception);
+            return this.i18n.get(sender, this.messages.getCommandsOpenvoteReloadFail());
         }
 
-        return SuccessResponse.of("The configuration has been reloaded!");
+        return this.i18n.get(sender, this.messages.getCommandsOpenvoteReloadSuccess());
     }
 
     @Permission("openvote.admin.reset")
-    @Executor(async = true, description = "resets secret token and statistics")
-    public BukkitResponse reset() {
+    @Executor(async = true, description = "!commands-openvote-reset-description")
+    public Message reset(CommandSender sender) {
 
-        this.config.setStatsId(String.valueOf(UUID.randomUUID()));
+        this.config.setStatsId(UUID.randomUUID());
         this.config.save();
 
-        return SuccessResponse.of("The plugin's stats id has been reset!");
+        return this.i18n.get(sender, this.messages.getCommandsOpenvoteResetSuccess());
     }
 }
