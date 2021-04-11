@@ -43,7 +43,6 @@ import java.util.logging.Level;
 @Setter(AccessLevel.PROTECTED)
 @Register(NoProxyConfig.class) // load config
 @Register(NoProxyMessages.class) // load messages
-@Register(NoProxyMessager.class) // create messager helper
 @Register(NoProxyCommand.class) // register admin command
 @Register(NoProxyListener.class) // register listener
 public class NoProxyBukkitPlugin extends OkaeriBukkitPlugin {
