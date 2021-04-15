@@ -21,8 +21,7 @@ import eu.okaeri.commands.annotation.Arg;
 import eu.okaeri.commands.annotation.Executor;
 import eu.okaeri.commands.annotation.ServiceDescriptor;
 import eu.okaeri.commands.bukkit.annotation.Permission;
-import eu.okaeri.commands.bukkit.response.BukkitResponse;
-import eu.okaeri.commands.bukkit.response.ErrorResponse;
+import eu.okaeri.commands.bukkit.annotation.Sender;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.i18n.message.Message;
 import eu.okaeri.injector.annotation.Inject;
@@ -30,19 +29,29 @@ import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 import eu.okaeri.platform.bukkit.commons.i18n.BI18n;
+import eu.okaeri.platform.bukkit.commons.i18n.PlayerLocaleProvider;
+import eu.okaeri.sdk.openvote.OpenVoteClient;
+import eu.okaeri.sdk.openvote.error.OpenVoteException;
+import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVote;
+import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteStartRequest;
+import eu.okaeri.sdk.openvote.model.vote.*;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Permission("openvote.vote")
 @ServiceDescriptor(label = "vote", aliases = "glosuj", description = "!commands-vote-list-description")
 public class VoteCommand implements CommandService {
 
+    private static final PlayerLocaleProvider LOCALE_PROVIDER = new PlayerLocaleProvider();
+
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
     @Inject("awaitingVotes") private Set<AwaitingVote> awaitingVotes;
     @Inject private BI18n i18n;
+    @Inject private OpenVoteClient client;
 
     @Executor(pattern = {"list", "lists"}, description = "!commands-vote-list-description")
     public Message lists(CommandSender sender) {
@@ -55,7 +64,56 @@ public class VoteCommand implements CommandService {
     }
 
     @Executor(pattern = "*", description = "!commands-vote-vote-description")
-    public BukkitResponse vote(@Arg("list") String list) {
-        return ErrorResponse.of("Voting not implemented!");
+    public Message vote(@Sender Player player, @Arg("list") String list) {
+
+        list = list.toLowerCase(Locale.ROOT);
+        if (!this.config.getLists().contains(list)) {
+            return this.i18n.get(player, this.messages.getCommandsVoteVoteListInvalid())
+                    .with("list", list);
+        }
+
+        List<OpenVoteVoteIdentifier> identifiers = Arrays.asList(
+                new OpenVoteVoteIdentifier(OpenVoteIdentifierType.UUID.name(), String.valueOf(player.getUniqueId())),
+                new OpenVoteVoteIdentifier(OpenVoteIdentifierType.USERNAME.name(), player.getName()));
+
+        OpenVoteServerVoteStartRequest request = new OpenVoteServerVoteStartRequest();
+        request.setList(list);
+        request.setStatsId(this.config.getStatsId());
+        request.setSingleCooldown(this.config.getSingleCooldown());
+        request.setGeneralCooldown(this.config.getGeneralCooldown());
+        request.setPassIdentifiers(this.config.isPassIdentifiers());
+        request.setIdentifiers(identifiers);
+        request.setServer(this.config.getServer());
+        request.setGame(OpenVoteGame.MINECRAFT_JAVA.name());
+        request.setLang(this.getLang(player).name());
+        request.setBackground(this.config.getBackground());
+
+        try {
+            OpenVoteServerVote vote = this.client.postServerVoteNew(request);
+            this.awaitingVotes.add(new AwaitingVote(vote.getServerVoteId(), player.getUniqueId(), list));
+            return this.i18n.get(player, this.messages.getCommandsVoteVoteUrl())
+                    .with("url", vote.getUrl());
+        }
+        catch (OpenVoteException exception) {
+            return this.i18n.get(player, this.messages.getCommandsVoteVoteError())
+                    .with("error", exception.getApiError().getError())
+                    .with("message", exception.getApiError().getMessage());
+        }
+    }
+
+    private OpenVoteLang getLang(Player player) {
+
+        Locale locale = LOCALE_PROVIDER.getLocale(player);
+        String language = locale.getLanguage();
+
+        if ((language == null) || language.isEmpty()) {
+            return OpenVoteLang.EN;
+        }
+
+        try {
+            return OpenVoteLang.valueOf(language.toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ignored) {
+            return OpenVoteLang.EN;
+        }
     }
 }
