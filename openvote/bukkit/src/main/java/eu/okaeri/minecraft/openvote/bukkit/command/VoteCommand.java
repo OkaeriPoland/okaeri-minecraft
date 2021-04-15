@@ -22,39 +22,39 @@ import eu.okaeri.commands.annotation.Executor;
 import eu.okaeri.commands.annotation.ServiceDescriptor;
 import eu.okaeri.commands.bukkit.annotation.Permission;
 import eu.okaeri.commands.bukkit.response.BukkitResponse;
-import eu.okaeri.commands.bukkit.response.ColorResponse;
 import eu.okaeri.commands.bukkit.response.ErrorResponse;
 import eu.okaeri.commands.service.CommandService;
+import eu.okaeri.i18n.message.Message;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
+import eu.okaeri.platform.bukkit.commons.i18n.BI18n;
+import org.bukkit.command.CommandSender;
 
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Permission("openvote.vote")
-@ServiceDescriptor(label = "vote", aliases = "glosuj", description = "OpenVote user command")
+@ServiceDescriptor(label = "vote", aliases = "glosuj", description = "!commands-vote-list-description")
 public class VoteCommand implements CommandService {
 
     @Inject private OpenVoteConfig config;
     @Inject private OpenVoteMessages messages;
     @Inject("awaitingVotes") private Set<AwaitingVote> awaitingVotes;
+    @Inject private BI18n i18n;
 
-    @Executor(pattern = {"list", "lists"}, description = "displays all lists available for voting")
-    public BukkitResponse lists() {
-
-        List<String> lists = this.config.getLists();
-        StringBuilder out = new StringBuilder("&aUse /vote &e<list>&a with one of the following:\n");
-
-        for (String list : lists) {
-            out.append("&7- &e").append(list).append("\n");
-        }
-
-        return ColorResponse.of(out.toString());
+    @Executor(pattern = {"list", "lists"}, description = "!commands-vote-list-description")
+    public Message lists(CommandSender sender) {
+        return this.i18n.get(sender, this.messages.getCommandsVoteListTemplate())
+                .with("entries", this.config.getLists().stream()
+                        .map(list -> this.i18n.get(sender, this.messages.getCommandsVoteListEntry())
+                                .with("list", list)
+                                .apply())
+                        .collect(Collectors.joining("\n")));
     }
 
-    @Executor(pattern = "*", description = "starts voting process on a specific list")
+    @Executor(pattern = "*", description = "!commands-vote-vote-description")
     public BukkitResponse vote(@Arg("list") String list) {
         return ErrorResponse.of("Voting not implemented!");
     }

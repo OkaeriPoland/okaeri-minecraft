@@ -32,9 +32,15 @@ public class OpenVoteMessages extends LocaleConfig {
     private String prefix = "&f&lOpenVote&7: ";
 
     private String commandsOpenvoteReloadDescription = "reloads the config";
-    private String commandsOpenvoteReloadSuccess = "&cThe configuration reloaded.";
-    private String commandsOpenvoteReloadFail = "&cError during reload! More information in the console.";
+    private String commandsOpenvoteReloadSuccess = "The configuration reloaded.";
+    private String commandsOpenvoteReloadFail = "Error during reload! More information in the console.";
 
     private String commandsOpenvoteResetDescription = "resets secret token and statistics";
-    private String commandsOpenvoteResetSuccess = "&aThe plugin's stats id has been reset!";
+    private String commandsOpenvoteResetSuccess = "The plugin's stats id has been reset!";
+
+    private String commandsVoteListDescription = "displays all list available for voting";
+    private String commandsVoteListTemplate = "Use /vote <list> with one of the following:\n{entries}";
+    private String commandsVoteListEntry = "- {list}";
+
+    private String commandsVoteVoteDescription = "starts voting process on a specific list";
 }

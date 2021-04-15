@@ -22,8 +22,6 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
 import eu.okaeri.platform.core.annotation.Component;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -53,11 +51,11 @@ public class NoProxyListener implements Listener {
             return;
         }
 
-        BaseComponent[] kickMessage = ColorResponse.of(this.messages.getPlayerInfo())
+        String kickMessage = ColorResponse.of(this.messages.getPlayerInfo())
                 .withField("{PREFIX}", this.messages.getPrefix())
                 .render();
 
         event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
-        event.setKickMessage(TextComponent.toLegacyText(kickMessage));
+        event.setKickMessage(kickMessage);
     }
 }

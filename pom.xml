@@ -25,28 +25,22 @@
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-sdk</artifactId>
-            <version>1.3.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>1.3.5</version>
         </dependency>
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-platform-core</artifactId>
-            <version>0.2.1</version>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-core</artifactId>
-            <version>2.6.1</version>
+            <version>2.7.0</version>
         </dependency>
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-configs-validator-okaeri</artifactId>
-            <version>2.6.1</version>
+            <version>2.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

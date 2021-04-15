@@ -59,6 +59,19 @@
                             <shadedPattern>eu/okaeri/minecraft/noproxy/lib/$1</shadedPattern>
                             <rawString>true</rawString>
                         </relocation>
+                        <!-- sdk dependencies -->
+                        <relocation>
+                            <pattern>kong.unirest.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.unirest.</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.apache.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.apache.</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.gson.</pattern>
+                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.gson.</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
@@ -74,7 +87,7 @@
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-platform-bukkit</artifactId>
-            <version>0.2.1</version>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
