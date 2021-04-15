@@ -34,11 +34,18 @@ import eu.okaeri.sdk.openvote.OpenVoteClient;
 import eu.okaeri.sdk.openvote.error.OpenVoteException;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVote;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteStartRequest;
-import eu.okaeri.sdk.openvote.model.vote.*;
+import eu.okaeri.sdk.openvote.model.vote.OpenVoteGame;
+import eu.okaeri.sdk.openvote.model.vote.OpenVoteIdentifierType;
+import eu.okaeri.sdk.openvote.model.vote.OpenVoteLang;
+import eu.okaeri.sdk.openvote.model.vote.OpenVoteVoteIdentifier;
+import kong.unirest.UnirestException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Permission("openvote.vote")
@@ -93,11 +100,14 @@ public class VoteCommand implements CommandService {
             this.awaitingVotes.add(new AwaitingVote(vote.getServerVoteId(), player.getUniqueId(), list));
             return this.i18n.get(player, this.messages.getCommandsVoteVoteUrl())
                     .with("url", vote.getUrl());
-        }
-        catch (OpenVoteException exception) {
+        } catch (OpenVoteException exception) {
             return this.i18n.get(player, this.messages.getCommandsVoteVoteError())
                     .with("error", exception.getApiError().getError())
                     .with("message", exception.getApiError().getMessage());
+        } catch (UnirestException exception) {
+            return this.i18n.get(player, this.messages.getCommandsVoteVoteError())
+                    .with("error", exception.getCause().getClass().getSimpleName())
+                    .with("message", exception.getCause().getMessage());
         }
     }
 

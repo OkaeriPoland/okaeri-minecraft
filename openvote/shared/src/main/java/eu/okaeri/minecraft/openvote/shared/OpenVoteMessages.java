@@ -43,7 +43,7 @@ public class OpenVoteMessages extends LocaleConfig {
     private String commandsVoteListEntry = "- {list}";
 
     private String commandsVoteVoteDescription = "starts voting process on a specific list";
-    private String commandsVoteVoteListInvalid = "The list '{list}' is invalid! Check /vote list";
+    private String commandsVoteVoteListInvalid = "The list {list} is invalid! Check /vote list";
     private String commandsVoteVoteError = "Error submitting the vote ({error}): {message}";
     private String commandsVoteVoteUrl = "Continue voting here: {url}";
 }
