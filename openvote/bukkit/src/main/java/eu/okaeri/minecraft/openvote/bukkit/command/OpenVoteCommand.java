@@ -1,5 +1,5 @@
 /*
- * OK! No.Proxy Minecraft
+ * OK! OpenVote Minecraft
  * Copyright (C) 2021 Okaeri, Dawid Sawicki
  *
  * This program is free software: you can redistribute it and/or modify

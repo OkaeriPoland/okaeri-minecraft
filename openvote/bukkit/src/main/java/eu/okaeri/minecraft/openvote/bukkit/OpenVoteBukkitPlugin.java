@@ -76,7 +76,10 @@ public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
         }
 
         OpenVoteBukkit openvote = new OpenVoteBukkit(plugin, client);
-        if (config.isEnableWebhooks()) config.getWebhooks().forEach(openvote::addWebhook);
+        if (config.isEnableWebhooks()) {
+            config.getWebhooks().forEach(openvote::addWebhook);
+        }
+
         return openvote;
     }
 
