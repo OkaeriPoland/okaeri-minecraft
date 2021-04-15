@@ -52,6 +52,10 @@ public class VotesUpdateTask implements Runnable {
     @Override
     public void run() {
 
+        if (this.awaitingVotes.isEmpty()) {
+            return;
+        }
+
         List<UUID> votesIds = this.awaitingVotes.stream()
                 .map(AwaitingVote::getId)
                 .collect(Collectors.toList());
