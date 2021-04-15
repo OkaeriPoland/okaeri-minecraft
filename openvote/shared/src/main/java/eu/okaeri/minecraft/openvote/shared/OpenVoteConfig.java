@@ -100,13 +100,13 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("Value in seconds. Up to 30 days. (0 = no limit)")
     private int generalCooldown = 0;
 
-    @Pattern("DE|EN|EO|ES|FR|JP|PL|PT|RU")
-    @Comment("JEZYK STRONY GLOSOWANIA")
-    @Comment("Wartoscci: DE, EN, EO, ES, FR, JP, PL, PT, RU")
-    @Comment(" ")
-    @Comment("LANGUAGE OF A VOTING PAGE")
-    @Comment("Values: DE, EN, EO, ES, FR, JP, PL, PT, RU")
-    private String lang = "PL";
+//    @Pattern("DE|EN|EO|ES|FR|JP|PL|PT|RU")
+//    @Comment("JEZYK STRONY GLOSOWANIA")
+//    @Comment("Wartoscci: DE, EN, EO, ES, FR, JP, PL, PT, RU")
+//    @Comment(" ")
+//    @Comment("LANGUAGE OF A VOTING PAGE")
+//    @Comment("Values: DE, EN, EO, ES, FR, JP, PL, PT, RU")
+//    private String lang = "PL";
 
     @Comment("UDOSTEPNIANIE NICKU GRACZA")
     @Comment("Czy wtyczka ma wysyłać do listy nick oraz uuid gracza?")

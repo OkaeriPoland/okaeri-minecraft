@@ -18,9 +18,9 @@
 package eu.okaeri.minecraft.openvote.shared;
 
 import eu.okaeri.sdk.openvote.OpenVoteClient;
-import eu.okaeri.sdk.unirest.HttpResponse;
-import eu.okaeri.sdk.unirest.Unirest;
-import eu.okaeri.sdk.unirest.UnirestInstance;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestInstance;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -74,9 +74,9 @@ public class VotesUpdateTask implements Runnable {
 
         this.awaitingVotes.remove(vote);
         CommandRunner.of(this.plugin, player)
-                .withField("name", player.getName())
-                .withField("uuid", String.valueOf(player.getUniqueId()))
-                .withField("list", vote.getList())
+                .field("name", player.getName())
+                .field("uuid", String.valueOf(player.getUniqueId()))
+                .field("list", vote.getList())
                 .execute(this.config.getRewards());
     }
 }

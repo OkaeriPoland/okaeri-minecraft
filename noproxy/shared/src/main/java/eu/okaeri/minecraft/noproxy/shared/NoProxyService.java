@@ -21,9 +21,9 @@ import eu.okaeri.sdk.noproxy.NoProxyClient;
 import eu.okaeri.sdk.noproxy.error.NoProxyException;
 import eu.okaeri.sdk.noproxy.model.NoProxyAddressInfo;
 import eu.okaeri.sdk.noproxy.model.NoProxyError;
-import eu.okaeri.sdk.unirest.HttpResponse;
-import eu.okaeri.sdk.unirest.Unirest;
-import eu.okaeri.sdk.unirest.UnirestInstance;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestInstance;
 import lombok.Getter;
 import lombok.Setter;
 
