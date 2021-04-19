@@ -1,14 +1,15 @@
+prefix: '&f&lOpenVote&7: '
 commands-openvote-reload-description: przeładowuje konfigurację
-commands-openvote-reload-success: Konfiguracja została przeładowana.
-commands-openvote-reload-fail: Błąd podczas przeładowywania! Więcej informacji w konsoli.
+commands-openvote-reload-success: ~Konfiguracja została przeładowana.
+commands-openvote-reload-fail: ~Błąd podczas przeładowywania! Więcej informacji w konsoli.
 commands-openvote-reset-description: resetuje sekretny token i statystyki
-commands-openvote-reset-success: Id statystyk wtyczki zostało zrestartowane!
+commands-openvote-reset-success: ~Id statystyk wtyczki zostało zrestartowane!
 commands-vote-list-description: pokazuje dostępne do głosowania listy
 commands-vote-list-template: |-
-  Wpisz /vote <list> z wybraną listą:
+  ~Wpisz /vote <list> z wybraną listą:
   {entries}
 commands-vote-list-entry: '- {list}'
 commands-vote-vote-description: rozpoczyna proces głosowania
-commands-vote-vote-list-invalid: Lista {list} jest nieprawidłowa! Sprawdź /vote list
-commands-vote-vote-error: 'Błąd podczas tworzenia głosu ({error}): {message}'
-commands-vote-vote-url: 'Kontynuuj głosowanie tutaj: {url}'
+commands-vote-vote-list-invalid: ~Lista {list} jest nieprawidłowa! Sprawdź /vote list
+commands-vote-vote-error: '~Błąd podczas tworzenia głosu ({error}): {message}'
+commands-vote-vote-url: '~Kontynuuj głosowanie tutaj: {url}'

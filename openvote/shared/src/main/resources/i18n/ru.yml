@@ -1,14 +1,15 @@
+prefix: '&f&lOpenVote&7: '
 commands-openvote-reload-description: перезагружает конфигурацию
-commands-openvote-reload-success: Конфигурация перезагружена.
-commands-openvote-reload-fail: Ошибка при перезагрузке! Больше информации в консоли.
+commands-openvote-reload-success: ~Конфигурация перезагружена.
+commands-openvote-reload-fail: ~Ошибка при перезагрузке! Больше информации в консоли.
 commands-openvote-reset-description: сбрасывает секретный токен и статистику
-commands-openvote-reset-success: Идентификатор статистики плагина сброшен!
+commands-openvote-reset-success: ~Идентификатор статистики плагина сброшен!
 commands-vote-list-description: отображает списки, доступные для голосования
 commands-vote-list-template: |-
-  Используйте /vote <list> с одним из следующих:
+  ~Используйте /vote <list> с одним из следующих:
   {entries}
 commands-vote-list-entry: '- {list}'
 commands-vote-vote-description: начинает процесс голосования
-commands-vote-vote-list-invalid: Список {list} недействителен! Проверить /vote list
-commands-vote-vote-error: 'Ошибка при отправке голоса ({error}): {message}'
-commands-vote-vote-url: 'Продолжить голосование здесь: {url}'
+commands-vote-vote-list-invalid: ~Список {list} недействителен! Проверить /vote list
+commands-vote-vote-error: '~Ошибка при отправке голоса ({error}): {message}'
+commands-vote-vote-url: '~Продолжить голосование здесь: {url}'

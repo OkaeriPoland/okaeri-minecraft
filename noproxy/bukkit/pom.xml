@@ -87,7 +87,7 @@
         <dependency>
             <groupId>eu.okaeri</groupId>
             <artifactId>okaeri-platform-bukkit</artifactId>
-            <version>0.3.2</version>
+            <version>0.3.4</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
