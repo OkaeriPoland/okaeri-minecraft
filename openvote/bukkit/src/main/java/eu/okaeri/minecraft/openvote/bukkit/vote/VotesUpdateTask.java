@@ -17,12 +17,12 @@
  */
 package eu.okaeri.minecraft.openvote.bukkit.vote;
 
+import eu.okaeri.commons.bukkit.command.CommandRunner;
+import eu.okaeri.commons.bukkit.time.MinecraftTimeEquivalent;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 import eu.okaeri.platform.bukkit.annotation.Timer;
-import eu.okaeri.platform.bukkit.commons.command.CommandRunner;
-import eu.okaeri.platform.bukkit.commons.time.MinecraftTimeEquivalent;
 import eu.okaeri.sdk.openvote.OpenVoteClient;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteCheckRequest;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteCheckResult;

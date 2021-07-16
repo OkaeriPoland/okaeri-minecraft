@@ -28,8 +28,8 @@ import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
-import eu.okaeri.platform.bukkit.commons.i18n.BI18n;
-import eu.okaeri.platform.bukkit.commons.i18n.PlayerLocaleProvider;
+import eu.okaeri.platform.bukkit.i18n.BI18n;
+import eu.okaeri.platform.bukkit.i18n.PlayerLocaleProvider;
 import eu.okaeri.sdk.openvote.OpenVoteClient;
 import eu.okaeri.sdk.openvote.error.OpenVoteException;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVote;
@@ -83,6 +83,10 @@ public class VoteCommand implements CommandService {
                 new OpenVoteVoteIdentifier(OpenVoteIdentifierType.UUID.name(), String.valueOf(player.getUniqueId())),
                 new OpenVoteVoteIdentifier(OpenVoteIdentifierType.USERNAME.name(), player.getName()));
 
+        String background = (this.config.getBackground() == null) ? null
+                : (this.config.getBackground().isEmpty() ? null
+                : this.config.getBackground());
+
         OpenVoteServerVoteStartRequest request = new OpenVoteServerVoteStartRequest();
         request.setList(list);
         request.setStatsId(this.config.getStatsId());
@@ -93,7 +97,7 @@ public class VoteCommand implements CommandService {
         request.setServer(this.config.getServer());
         request.setGame(OpenVoteGame.MINECRAFT_JAVA.name());
         request.setLang(this.getLang(player).name());
-        request.setBackground(this.config.getBackground());
+        request.setBackground(background);
 
         try {
             OpenVoteServerVote vote = this.client.postServerVoteNew(request);

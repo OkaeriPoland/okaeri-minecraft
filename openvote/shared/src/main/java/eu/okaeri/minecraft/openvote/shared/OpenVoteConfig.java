@@ -54,10 +54,12 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Size(min = 4, max = 64)
     @Pattern(value = "(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]", message = "value must be a valid domain")
     @Comment("IDENTYFIKATOR SERWERA")
-    @Comment("Wprowadz swoj adres serwera, ktory dodajesz do list")
+    @Comment("Wprowadź swój adres serwera, który dodajesz do list.")
+    @Comment("Adres musi być domeną i nie może zawierać portu.")
     @Comment(" ")
     @Comment("SERVER IDENTIFIER")
-    @Comment("Specify your server address used for server lists")
+    @Comment("Specify your server address used for server lists.")
+    @Comment("The address must be a domain without a port.")
     private String server = PLACEHOLDER_SERVER;
 
     @Comment("KOMENDY NAGRODY")
@@ -65,19 +67,19 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("   {name} - nick gracza")
     @Comment("   {uuid} - uuid gracza")
     @Comment("   {list} - nazwa listy")
-    @Comment("Wprowadz liste komend (bez / na poczatku), ktore beda wykonane po oddaniu glosu")
+    @Comment("Wprowadź listę komend (bez / na początku), które będą wykonane po oddaniu głosu.")
     @Comment(" ")
     @Comment("REWARD COMMANDS")
     @Comment("Variables:")
     @Comment("   {name} - player nickname")
     @Comment("   {uuid} - player uuid")
     @Comment("   {list} - list name")
-    @Comment("Enter commands list (without / at the beginning), which would be executed after a successful vote")
+    @Comment("Enter commands list (without / at the beginning), which would be executed after a successful vote.")
     private List<String> rewards = Collections.singletonList("give {name} diamond 1");
 
     @Comment("ADRESY LIST")
-    @Comment("Sprawdz na stronie wybranej listy, czy wspiera ona \"OK! OpenVote\"")
-    @Comment("i zalecany adres do wprowadzenia. Nie dodawaj na poczatku \"https://\".")
+    @Comment("Sprawdź na stronie wybranej listy, czy wspiera ona \"OK! OpenVote\"")
+    @Comment("i zalecany adres do wprowadzenia. Nie dodawaj na początku \"https://\".")
     @Comment(" ")
     @Comment("LIST ADDRESSES")
     @Comment("Check on the page of the selected list if it supports \"OK! OpenVote\"")
@@ -85,16 +87,16 @@ public class OpenVoteConfig extends OkaeriConfig {
     private List<String> lists = Collections.singletonList("www.topkamc.pl");
 
     @Min(0)
-    @Comment("JAK CZESTO GRACZ MOZE ODBIERAC NAGRODE ZA GLOSOWANIE NA POJEDYNCZEJ LISCIE?")
-    @Comment("Wartosc w godzinach. Od 1h do 720h (30 dni).")
+    @Comment("JAK CZĘSTO GRACZ MOŻE ODBIERAĆ NAGRODĘ ZA GŁOSOWANIE NA POJEDYNCZEJ LIŚCIE?")
+    @Comment("Wartość w godzinach. Od 1h do 720h (30 dni).")
     @Comment(" ")
     @Comment("HOW OFTEN IS THE PLAYER ALLOWED TO VOTE ON A SINGLE LIST?")
     @Comment("Value in hours. From 1h up to 720h (30 days).")
     private int singleCooldown = 24;
 
     @Min(0)
-    @Comment("JAK CZESTO GRACZ MOZE ODBIERAC NAGRODE OGOLEM?")
-    @Comment("Wartosc w sekundach. Maksymalnie 30 dni. (0 = bez limitu)")
+    @Comment("JAK CZĘSTO GRACZ MOZE ODBIERAĆ NAGRODĘ OGÓŁEM?")
+    @Comment("Wartość w sekundach. Maksymalnie 30 dni. (0 = bez limitu)")
     @Comment(" ")
     @Comment("HOW OFTEN IS THE PLAYER ALLOWED TO VOTE ON ANY LIST?")
     @Comment("Value in seconds. Up to 30 days. (0 = no limit)")
@@ -121,9 +123,9 @@ public class OpenVoteConfig extends OkaeriConfig {
 
     @Size(max = 255)
     @Comment("TLO STRONY GLOSOWANIA")
-    @Comment("Wspierane przez strony OpenVote. Opcjonalne wsparcie przez wlascicieli list.")
+    @Comment("Wspierane przez strony OpenVote. Opcjonalne wsparcie przez właścicieli list.")
     @Comment("Podaj adres URL do obrazka lub kolor w formacie HTML (np. #fff - biały).")
-    @Comment("Pozostaw puste, aby nie uzywac wlasnego tla glosowania.")
+    @Comment("Pozostaw puste, aby nie używać wlasnego tła glosowania.")
     @Comment(" ")
     @Comment("VOTING BACKGROUND")
     @Comment("Supported by OpenVote pages. Optional support on specific lists.")
@@ -131,14 +133,14 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("Leave empty, to disable feature.")
     private String background = "";
 
-    @Comment("CZY WEBHOOKI MAJA BYC WLACZONE?")
+    @Comment("CZY WEBHOOKI MAJĄ BYC WŁĄCZONE?")
     @Comment("Wymagana konfiguracja w sekcji webhooks.")
     @Comment(" ")
     @Comment("SHALL WEBHOOKS BE ENABLED?")
     @Comment("Configuration required. See webhooks section.")
     private boolean enableWebhooks = false;
 
-    @Comment("LISTA WEBHOOKOW")
+    @Comment("LISTA WEBHOOKÓW")
     @Comment("Zmienne:")
     @Comment("   {player} - nick gracza")
     @Comment("   {list} - nazwa listy")
@@ -189,16 +191,16 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("ID STATYSTYK")
     @Comment("Unikalne id wygenerowane dla tej instalacji wtyczki.")
     @Comment(" ")
-    @Comment("Jesli masz siec serwerow, mozesz ustawic takie")
-    @Comment("samo na kazdym trybie, aby uniemozliwic zbieranie")
-    @Comment("nagrody na kazdym z trybow oddzielnie.")
+    @Comment("Jeśli masz sieć serwerów, możesz ustawić takie")
+    @Comment("samo na każdym trybie, aby uniemożliwić zbieranie")
+    @Comment("nagrody na każdym z trybow oddzielnie.")
     @Comment(" ")
-    @Comment("Nie udostepniaj nikomu tej wartosci, to ona gwarantuje bezpieczenstwo systemu.")
-    @Comment("W przypadku, gdy ktos ja pozna, bedzie w stanie potwierdzic glos bez")
-    @Comment("faktycznego dokonania glosowania, a nawet bez wchodzenia na liste.")
+    @Comment("Nie udostępniaj nikomu tej wartości, to ona gwarantuje bezpieczenstwo systemu.")
+    @Comment("W przypadku, gdy ktoś ją pozna, będzie w stanie potwierdzić głos bez")
+    @Comment("faktycznego dokonania głosowania, a nawet bez wchodzenia na listę.")
     @Comment(" ")
-    @Comment("Jesli dojdzie do ujawnienia tego ciagu, jak najszybciej dokonaj zmiany na")
-    @Comment("nowe losowe UUID, mozesz dokonac tego uzywajac komendy \"/openvote reset\".")
+    @Comment("Jeśli dojdzie do ujawnienia tego ciągu, jak najszybciej dokonaj zmiany na")
+    @Comment("nowe losowe UUID, mozesz dokonać tego używając komendy \"/openvote reset\".")
     @Comment(" ")
     @Comment(" ")
     @Comment("STATS ID")
@@ -216,6 +218,6 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("for the new random UUID, you can use a build-in \"/openvote reset\".")
     private UUID statsId = UUID.randomUUID();
 
-    @Comment({"Nie edytuj tej wartosci", "Do not edit"})
+    @Comment({"Nie edytuj tej wartości", "Do not edit"})
     private int version = 1;
 }
