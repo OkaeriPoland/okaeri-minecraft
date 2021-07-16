@@ -26,7 +26,7 @@ import eu.okaeri.i18n.message.Message;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
-import eu.okaeri.platform.bukkit.commons.i18n.BI18n;
+import eu.okaeri.platform.bukkit.i18n.BI18n;
 import org.bukkit.command.CommandSender;
 
 import java.util.UUID;
