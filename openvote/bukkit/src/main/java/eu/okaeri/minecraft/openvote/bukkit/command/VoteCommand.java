@@ -19,6 +19,7 @@ package eu.okaeri.minecraft.openvote.bukkit.command;
 
 import eu.okaeri.commands.annotation.Arg;
 import eu.okaeri.commands.annotation.Command;
+import eu.okaeri.commands.annotation.Completion;
 import eu.okaeri.commands.annotation.Executor;
 import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
@@ -65,22 +66,24 @@ public class VoteCommand implements CommandService {
     @Executor(pattern = {"list", "lists"}, description = "${commandsVoteListDescription}")
     public Message lists(CommandSender sender) {
         return this.i18n.get(sender, this.messages.getCommandsVoteListTemplate())
-                .with("entries", this.config.getLists().stream()
+                .with("entries", this.config.getListsMap().keySet().stream()
                         .map(list -> this.i18n.get(sender, this.messages.getCommandsVoteListEntry())
                                 .with("list", list)
                                 .apply())
                         .collect(Collectors.joining("\n")));
     }
 
+    @Completion(arg = "list", value = "@lists")
     @Executor(description = "${commandsVoteVoteDescription}")
     public Message _vote(@Sender Player player, @Arg String list) {
 
         list = list.toLowerCase(Locale.ROOT);
-        if (!this.config.getLists().contains(list)) {
+        if (!this.config.getListsMap().containsKey(list)) {
             return this.i18n.get(player, this.messages.getCommandsVoteVoteListInvalid())
                     .with("list", list);
         }
 
+        list = this.config.getListsMap().get(list);
         List<OpenVoteVoteIdentifier> identifiers = Arrays.asList(
                 new OpenVoteVoteIdentifier(OpenVoteIdentifierType.UUID.name(), String.valueOf(player.getUniqueId())),
                 new OpenVoteVoteIdentifier(OpenVoteIdentifierType.USERNAME.name(), player.getName()));

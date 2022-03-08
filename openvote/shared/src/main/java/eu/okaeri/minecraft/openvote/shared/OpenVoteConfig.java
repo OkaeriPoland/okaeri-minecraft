@@ -18,7 +18,9 @@
 package eu.okaeri.minecraft.openvote.shared;
 
 import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.configs.annotation.*;
+import eu.okaeri.configs.annotation.Comment;
+import eu.okaeri.configs.annotation.Exclude;
+import eu.okaeri.configs.annotation.Header;
 import eu.okaeri.platform.core.annotation.Configuration;
 import eu.okaeri.validator.annotation.Min;
 import eu.okaeri.validator.annotation.Pattern;
@@ -26,10 +28,8 @@ import eu.okaeri.validator.annotation.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -84,6 +84,17 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("Check on the page of the selected list if it supports \"OK! OpenVote\"")
     @Comment("and the recommended address. Do not include \"https://\".")
     private List<String> lists = Collections.singletonList("www.topkamc.pl");
+
+    public Map<String, String> getListsMap() {
+        return this.lists.stream().collect(Collectors.toMap(
+            name -> name.split("\\+", 2)[0],
+            name -> name,
+            (u, v) -> {
+                throw new IllegalStateException("Duplicate list alias: " + u);
+            },
+            LinkedHashMap::new
+        ));
+    }
 
     @Min(0)
     @Comment("JAK CZĘSTO GRACZ MOŻE ODBIERAĆ NAGRODĘ ZA GŁOSOWANIE NA POJEDYNCZEJ LIŚCIE?")

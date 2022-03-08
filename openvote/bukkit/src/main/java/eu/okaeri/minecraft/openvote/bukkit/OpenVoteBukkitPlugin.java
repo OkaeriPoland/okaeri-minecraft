@@ -17,12 +17,16 @@
  */
 package eu.okaeri.minecraft.openvote.bukkit;
 
+import eu.okaeri.commands.bukkit.CommandsBukkit;
+import eu.okaeri.commands.handler.completion.SimpleNamedCompletionHandler;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.platform.bukkit.OkaeriBukkitPlugin;
 import eu.okaeri.platform.core.annotation.Bean;
 import eu.okaeri.platform.core.annotation.Scan;
+import eu.okaeri.platform.core.plan.ExecutionPhase;
+import eu.okaeri.platform.core.plan.Planned;
 import eu.okaeri.sdk.openvote.OpenVoteClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,9 +45,9 @@ import java.util.logging.Level;
 
 @Getter
 @Scan(
-        value = "eu.okaeri.minecraft.openvote",
-        exclusions = "eu.okaeri.minecraft.openvote.lib",
-        deep = true
+    value = "eu.okaeri.minecraft.openvote",
+    exclusions = "eu.okaeri.minecraft.openvote.lib",
+    deep = true
 )
 public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
 
@@ -108,5 +112,12 @@ public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
             Bukkit.getOnlinePlayers().forEach(this::messagePlayer);
             Bukkit.getConsoleSender().sendMessage(MESSAGE);
         }
+    }
+
+    @Planned(ExecutionPhase.STARTUP)
+    private void setupCommands(CommandsBukkit commands, OpenVoteConfig config) {
+        commands.registerCompletion("lists", new SimpleNamedCompletionHandler(
+            () -> config.getListsMap().keySet().stream()
+        ));
     }
 }
