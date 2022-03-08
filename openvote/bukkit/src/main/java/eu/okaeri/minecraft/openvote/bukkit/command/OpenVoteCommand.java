@@ -17,8 +17,9 @@
  */
 package eu.okaeri.minecraft.openvote.bukkit.command;
 
+import eu.okaeri.commands.annotation.Command;
 import eu.okaeri.commands.annotation.Executor;
-import eu.okaeri.commands.annotation.ServiceDescriptor;
+import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.configs.exception.OkaeriException;
@@ -33,8 +34,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Async
 @Permission("openvote.admin")
-@ServiceDescriptor(label = "openvote", description = "OpenVote admin command")
+@Command(label = "openvote", description = "OpenVote admin command")
 public class OpenVoteCommand implements CommandService {
 
     @Inject private OpenVoteConfig config;
@@ -42,7 +44,7 @@ public class OpenVoteCommand implements CommandService {
     @Inject private Logger logger;
     @Inject private BI18n i18n;
 
-    @Executor(async = true, description = "!commands-openvote-reload-description")
+    @Executor(description = "${commandsOpenvoteReloadDescription}")
     public Message reload(CommandSender sender) {
 
         try {
@@ -57,7 +59,7 @@ public class OpenVoteCommand implements CommandService {
     }
 
     @Permission("openvote.admin.reset")
-    @Executor(async = true, description = "!commands-openvote-reset-description")
+    @Executor(description = "${commandsOpenvoteResetDescription}")
     public Message reset(CommandSender sender) {
 
         this.config.setStatsId(UUID.randomUUID());

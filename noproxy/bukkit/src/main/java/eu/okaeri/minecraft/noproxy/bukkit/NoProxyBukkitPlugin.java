@@ -36,7 +36,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
+import java.io.File;
 import java.util.logging.Level;
 
 @Getter
@@ -45,10 +48,22 @@ import java.util.logging.Level;
 @Register(NoProxyMessages.class) // load messages
 @Register(NoProxyCommand.class) // register admin command
 @Register(NoProxyListener.class) // register listener
+//@Scan(
+//        value = "eu.okaeri.minecraft.noproxy",
+//        exclusions = "eu.okaeri.minecraft.noproxy.lib",
+//        deep = true
+//)
 public class NoProxyBukkitPlugin extends OkaeriBukkitPlugin {
 
     @Inject private NoProxyClient client;
     @Inject private NoProxyBukkit noproxy;
+
+    public NoProxyBukkitPlugin() {
+    }
+
+    public NoProxyBukkitPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+    }
 
     @Bean
     private NoProxyClient configureClient(NoProxyBukkitPlugin plugin, NoProxyConfig config) {

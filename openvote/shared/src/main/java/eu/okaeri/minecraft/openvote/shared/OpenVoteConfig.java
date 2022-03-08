@@ -45,7 +45,6 @@ import java.util.UUID;
 @Header("#    https://wiki.okaeri.eu/en/services/openvote/minecraft     #")
 @Header("#                                                              #")
 @Header("################################################################")
-@Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class OpenVoteConfig extends OkaeriConfig {
 
     @Exclude
