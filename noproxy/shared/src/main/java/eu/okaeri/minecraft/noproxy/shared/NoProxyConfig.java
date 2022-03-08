@@ -20,15 +20,13 @@ package eu.okaeri.minecraft.noproxy.shared;
 import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.*;
 import eu.okaeri.platform.core.annotation.Configuration;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Configuration(path = "config.yml")
+@Getter
+@Configuration
 @Header("################################################################")
 @Header("#                                                              #")
 @Header("#    OK! No.Proxy Minecraft                                    #")
@@ -40,9 +38,9 @@ import java.util.List;
 @Header("#    https://wiki.okaeri.eu/en/services/noproxy/minecraft      #")
 @Header("#                                                              #")
 @Header("################################################################")
-@Names(strategy = NameStrategy.HYPHEN_CASE, modifier = NameModifier.TO_LOWER_CASE)
 public class NoProxyConfig extends OkaeriConfig {
 
+    @Variable("NOPROXY_TOKEN")
     @Comment({"Klucz prywatny API", "API secret"})
     private String token = "";
 

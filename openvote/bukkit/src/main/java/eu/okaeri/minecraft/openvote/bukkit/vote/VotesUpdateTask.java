@@ -22,7 +22,7 @@ import eu.okaeri.commons.bukkit.time.MinecraftTimeEquivalent;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
-import eu.okaeri.platform.bukkit.annotation.Timer;
+import eu.okaeri.platform.bukkit.annotation.Scheduled;
 import eu.okaeri.sdk.openvote.OpenVoteClient;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteCheckRequest;
 import eu.okaeri.sdk.openvote.model.server.OpenVoteServerVoteCheckResult;
@@ -37,7 +37,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Timer(rate = MinecraftTimeEquivalent.SECONDS_30, async = true)
+@Scheduled(rate = MinecraftTimeEquivalent.SECOND * 30, async = true)
 public class VotesUpdateTask implements Runnable {
 
     @Inject private OpenVoteClient client;

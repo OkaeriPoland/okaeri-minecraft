@@ -11,9 +11,4 @@
     <artifactId>okaeri-minecraft-openvote-shared</artifactId>
     <name>OK! OpenVote Minecraft (Shared)</name>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
 </project>

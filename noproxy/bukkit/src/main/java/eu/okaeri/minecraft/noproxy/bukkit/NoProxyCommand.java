@@ -17,8 +17,9 @@
  */
 package eu.okaeri.minecraft.noproxy.bukkit;
 
+import eu.okaeri.commands.annotation.Command;
 import eu.okaeri.commands.annotation.Executor;
-import eu.okaeri.commands.annotation.ServiceDescriptor;
+import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
 import eu.okaeri.commands.bukkit.response.BukkitResponse;
 import eu.okaeri.commands.bukkit.response.SuccessResponse;
@@ -30,8 +31,9 @@ import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
 import eu.okaeri.sdk.noproxy.NoProxyClient;
 
+@Async
 @Permission("noproxy.admin")
-@ServiceDescriptor(label = "noproxy", description = "NoProxy admin command")
+@Command(label = "noproxy", description = "NoProxy admin command")
 public class NoProxyCommand implements CommandService {
 
     @Inject private NoProxyConfig config;
@@ -39,7 +41,7 @@ public class NoProxyCommand implements CommandService {
     @Inject private NoProxyBukkit noproxy;
     @Inject private NoProxyBukkitPlugin plugin;
 
-    @Executor(async = true, description = "reloads the configuration")
+    @Executor(description = "reloads the configuration")
     public BukkitResponse reload() {
 
         try {

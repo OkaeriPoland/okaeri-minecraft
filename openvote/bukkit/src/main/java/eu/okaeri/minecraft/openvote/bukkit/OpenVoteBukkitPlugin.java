@@ -18,15 +18,11 @@
 package eu.okaeri.minecraft.openvote.bukkit;
 
 import eu.okaeri.injector.annotation.Inject;
-import eu.okaeri.minecraft.openvote.bukkit.command.OpenVoteCommand;
-import eu.okaeri.minecraft.openvote.bukkit.command.VoteCommand;
 import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
-import eu.okaeri.minecraft.openvote.bukkit.vote.VotesUpdateTask;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
-import eu.okaeri.minecraft.openvote.shared.OpenVoteMessages;
 import eu.okaeri.platform.bukkit.OkaeriBukkitPlugin;
 import eu.okaeri.platform.core.annotation.Bean;
-import eu.okaeri.platform.core.annotation.Register;
+import eu.okaeri.platform.core.annotation.Scan;
 import eu.okaeri.sdk.openvote.OpenVoteClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,11 +40,11 @@ import java.util.Set;
 import java.util.logging.Level;
 
 @Getter
-@Register(OpenVoteConfig.class) // load config
-@Register(OpenVoteMessages.class) // load messages
-@Register(VotesUpdateTask.class) // update votes states
-@Register(OpenVoteCommand.class) // create admin command
-@Register(VoteCommand.class) // create user command
+@Scan(
+        value = "eu.okaeri.minecraft.openvote",
+        exclusions = "eu.okaeri.minecraft.openvote.lib",
+        deep = true
+)
 public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
 
     @Inject private OpenVoteBukkit openvote;

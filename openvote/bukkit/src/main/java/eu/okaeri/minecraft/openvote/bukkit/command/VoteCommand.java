@@ -18,8 +18,9 @@
 package eu.okaeri.minecraft.openvote.bukkit.command;
 
 import eu.okaeri.commands.annotation.Arg;
+import eu.okaeri.commands.annotation.Command;
 import eu.okaeri.commands.annotation.Executor;
-import eu.okaeri.commands.annotation.ServiceDescriptor;
+import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
 import eu.okaeri.commands.bukkit.annotation.Sender;
 import eu.okaeri.commands.service.CommandService;
@@ -48,8 +49,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Async
 @Permission("openvote.vote")
-@ServiceDescriptor(label = "vote", aliases = "glosuj", description = "!commands-vote-list-description")
+@Command(label = "vote", aliases = "glosuj", description = "${commandsVoteListDescription}")
 public class VoteCommand implements CommandService {
 
     private static final PlayerLocaleProvider LOCALE_PROVIDER = new PlayerLocaleProvider();
@@ -60,7 +62,7 @@ public class VoteCommand implements CommandService {
     @Inject private BI18n i18n;
     @Inject private OpenVoteClient client;
 
-    @Executor(pattern = {"list", "lists"}, description = "!commands-vote-list-description")
+    @Executor(pattern = {"list", "lists"}, description = "${commandsVoteListDescription}")
     public Message lists(CommandSender sender) {
         return this.i18n.get(sender, this.messages.getCommandsVoteListTemplate())
                 .with("entries", this.config.getLists().stream()
@@ -70,8 +72,8 @@ public class VoteCommand implements CommandService {
                         .collect(Collectors.joining("\n")));
     }
 
-    @Executor(pattern = "*", description = "!commands-vote-vote-description")
-    public Message vote(@Sender Player player, @Arg("list") String list) {
+    @Executor(description = "${commandsVoteVoteDescription}")
+    public Message _vote(@Sender Player player, @Arg String list) {
 
         list = list.toLowerCase(Locale.ROOT);
         if (!this.config.getLists().contains(list)) {
