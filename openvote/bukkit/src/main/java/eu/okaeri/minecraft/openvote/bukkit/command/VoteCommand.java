@@ -95,8 +95,8 @@ public class VoteCommand implements CommandService {
         OpenVoteServerVoteStartRequest request = new OpenVoteServerVoteStartRequest();
         request.setList(list);
         request.setStatsId(this.config.getStatsId());
-        request.setSingleCooldown(this.config.getSingleCooldown());
-        request.setGeneralCooldown(this.config.getGeneralCooldown());
+        request.setSingleCooldown(Math.toIntExact(this.config.getSingleCooldown().toHours()));
+        request.setGeneralCooldown(Math.toIntExact(this.config.getGeneralCooldown().getSeconds()));
         request.setPassIdentifiers(this.config.isPassIdentifiers());
         request.setIdentifiers(identifiers);
         request.setServer(this.config.getServer());

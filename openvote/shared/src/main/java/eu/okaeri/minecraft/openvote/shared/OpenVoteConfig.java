@@ -21,6 +21,7 @@ import eu.okaeri.configs.OkaeriConfig;
 import eu.okaeri.configs.annotation.Comment;
 import eu.okaeri.configs.annotation.Exclude;
 import eu.okaeri.configs.annotation.Header;
+import eu.okaeri.configs.serdes.commons.duration.DurationSpec;
 import eu.okaeri.platform.core.annotation.Configuration;
 import eu.okaeri.validator.annotation.Min;
 import eu.okaeri.validator.annotation.Pattern;
@@ -28,6 +29,8 @@ import eu.okaeri.validator.annotation.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -97,20 +100,21 @@ public class OpenVoteConfig extends OkaeriConfig {
     }
 
     @Min(0)
+    @DurationSpec(fallbackUnit = ChronoUnit.HOURS)
     @Comment("JAK CZĘSTO GRACZ MOŻE ODBIERAĆ NAGRODĘ ZA GŁOSOWANIE NA POJEDYNCZEJ LIŚCIE?")
-    @Comment("Wartość w godzinach. Od 1h do 720h (30 dni).")
+    @Comment("Od 1h do 30d.")
     @Comment(" ")
     @Comment("HOW OFTEN IS THE PLAYER ALLOWED TO VOTE ON A SINGLE LIST?")
-    @Comment("Value in hours. From 1h up to 720h (30 days).")
-    private int singleCooldown = 24;
+    @Comment("From 1h up to 30d.")
+    private Duration singleCooldown = Duration.ofHours(24);
 
     @Min(0)
     @Comment("JAK CZĘSTO GRACZ MOZE ODBIERAĆ NAGRODĘ OGÓŁEM?")
-    @Comment("Wartość w sekundach. Maksymalnie 30 dni. (0 = bez limitu)")
+    @Comment("Maksymalnie 30d. (0 = bez limitu)")
     @Comment(" ")
     @Comment("HOW OFTEN IS THE PLAYER ALLOWED TO VOTE ON ANY LIST?")
-    @Comment("Value in seconds. Up to 30 days. (0 = no limit)")
-    private int generalCooldown = 0;
+    @Comment("Up to 30d. (0 = no limit)")
+    private Duration generalCooldown = Duration.ofSeconds(1);
 
 //    @Pattern("DE|EN|EO|ES|FR|JP|PL|PT|RU")
 //    @Comment("JEZYK STRONY GLOSOWANIA")
