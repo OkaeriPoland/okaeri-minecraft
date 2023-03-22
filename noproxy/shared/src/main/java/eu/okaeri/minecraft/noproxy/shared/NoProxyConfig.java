@@ -44,14 +44,10 @@ public class NoProxyConfig extends OkaeriConfig {
     @Comment({"Klucz prywatny API", "API secret"})
     private String token = "";
 
-    @CustomKey("white-list")
     @Comment("Biala lista (wpisane nicki lub ip nie beda blokowane)")
     @Comment("Whitelist (nicknames or ips)")
     private List<String> whitelist = Collections.singletonList("127.0.0.1");
 
     @Comment({"Webhooki", "Webhooks"})
     private List<NoProxyWebhook> webhooks = Collections.emptyList();
-
-    @Comment({"Nie edytuj tej wartosci", "Do not edit"})
-    private int version = 2;
 }

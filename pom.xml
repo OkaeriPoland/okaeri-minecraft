@@ -16,8 +16,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <library.okaeri-sdk.version>1.4.4</library.okaeri-sdk.version>
-        <library.okaeri-platform.version>0.4.0-preview57</library.okaeri-platform.version>
-        <library.okaeri-configs.version>4.0.0-beta10</library.okaeri-configs.version>
+        <library.okaeri-platform.version>0.4.0-preview.92</library.okaeri-platform.version>
+        <library.okaeri-configs.version>5.0.0-beta.5</library.okaeri-configs.version>
     </properties>
 
     <modules>
@@ -28,6 +28,16 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <compilerArgs>
+                            <arg>-parameters</arg>
+                        </compilerArgs>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
@@ -85,7 +95,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
 

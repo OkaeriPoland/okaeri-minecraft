@@ -26,8 +26,8 @@ import lombok.Getter;
 public class NoProxyMessages extends OkaeriConfig {
     private String prefix = "&f&lNo.Proxy&7: ";
     private String playerInfo =
-            "{PREFIX}&cKorzystanie z serwerow VPN lub proxy jest zabronione na tym serwerze.\n" +
-                    "&cJesli uwazasz to za blad, skontaktuj sie z administracja.\n" +
+            "{PREFIX}&cKorzystanie z serwerów VPN lub proxy jest zabronione na tym serwerze.\n" +
+                    "&cJeśli uważasz to za błąd, skontaktuj się z administracją.\n" +
                     "&f\n" +
                     "&cPomoc: &ehttps://example.com/forum";
 }

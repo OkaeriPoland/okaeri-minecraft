@@ -123,8 +123,11 @@ public class VoteCommand implements CommandService {
     private OpenVoteLang getLang(Player player) {
 
         Locale locale = LOCALE_PROVIDER.getLocale(player);
-        String language = locale.getLanguage();
+        if (locale == null) {
+            return OpenVoteLang.EN;
+        }
 
+        String language = locale.getLanguage();
         if ((language == null) || language.isEmpty()) {
             return OpenVoteLang.EN;
         }

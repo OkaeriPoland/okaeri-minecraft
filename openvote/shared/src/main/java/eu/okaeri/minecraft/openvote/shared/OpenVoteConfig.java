@@ -207,14 +207,14 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment(" ")
     @Comment("Jeśli masz sieć serwerów, możesz ustawić takie")
     @Comment("samo na każdym trybie, aby uniemożliwić zbieranie")
-    @Comment("nagrody na każdym z trybow oddzielnie.")
+    @Comment("nagrody na każdym z trybów oddzielnie.")
     @Comment(" ")
-    @Comment("Nie udostępniaj nikomu tej wartości, to ona gwarantuje bezpieczenstwo systemu.")
+    @Comment("Nie udostępniaj nikomu tej wartości, to ona gwarantuje bezpieczeństwo systemu.")
     @Comment("W przypadku, gdy ktoś ją pozna, będzie w stanie potwierdzić głos bez")
     @Comment("faktycznego dokonania głosowania, a nawet bez wchodzenia na listę.")
     @Comment(" ")
     @Comment("Jeśli dojdzie do ujawnienia tego ciągu, jak najszybciej dokonaj zmiany na")
-    @Comment("nowe losowe UUID, mozesz dokonać tego używając komendy \"/openvote reset\".")
+    @Comment("nowe losowe UUID, możesz dokonać tego używając komendy \"/openvote reset\".")
     @Comment(" ")
     @Comment(" ")
     @Comment("STATS ID")
@@ -231,7 +231,4 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("In case of a leak or leak suspicion, change the value ASAP")
     @Comment("for the new random UUID, you can use a build-in \"/openvote reset\".")
     private UUID statsId = UUID.randomUUID();
-
-    @Comment({"Nie edytuj tej wartości", "Do not edit"})
-    private int version = 1;
 }
