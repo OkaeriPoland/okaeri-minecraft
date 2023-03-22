@@ -18,7 +18,6 @@
 package eu.okaeri.minecraft.openvote.bukkit;
 
 import eu.okaeri.commands.bukkit.CommandsBukkit;
-import eu.okaeri.commands.handler.completion.SimpleNamedCompletionHandler;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.openvote.bukkit.vote.AwaitingVote;
 import eu.okaeri.minecraft.openvote.shared.OpenVoteConfig;
@@ -116,8 +115,6 @@ public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
 
     @Planned(ExecutionPhase.STARTUP)
     private void setupCommands(CommandsBukkit commands, OpenVoteConfig config) {
-        commands.registerCompletion("lists", new SimpleNamedCompletionHandler(
-            () -> config.getListsMap().keySet().stream()
-        ));
+        commands.registerCompletion("lists", () -> config.getListsMap().keySet().stream());
     }
 }
