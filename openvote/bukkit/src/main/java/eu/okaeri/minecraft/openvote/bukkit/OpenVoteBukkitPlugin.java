@@ -50,8 +50,8 @@ import java.util.logging.Level;
 )
 public class OpenVoteBukkitPlugin extends OkaeriBukkitPlugin {
 
-    @Inject private OpenVoteBukkit openvote;
-    @Inject private OpenVoteClient client;
+    private @Inject OpenVoteBukkit openvote;
+    private @Inject OpenVoteClient client;
 
     @Bean
     private OpenVoteClient configureClient() {

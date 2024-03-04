@@ -2,5 +2,5 @@ name: NoProxy
 version: ${project.version}-git-${git.commit.id.abbrev}
 main: eu.okaeri.minecraft.noproxy.bukkit.NoProxyBukkitPlugin
 description: 'OK! No.Proxy Minecraft (Bukkit)'
-author: 'Dawid Sawicki <dawid@okaeri.eu>'
+author: 'Dawid Sawicki <dawid@okaeri.cloud>'
 api-version: 1.13

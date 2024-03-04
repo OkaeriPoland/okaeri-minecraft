@@ -3,16 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>okaeri-minecraft-noproxy</artifactId>
+        <artifactId>okaeri-minecraft-aicensor</artifactId>
         <groupId>eu.okaeri</groupId>
         <version>2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>okaeri-minecraft-noproxy-bukkit</artifactId>
-    <name>OK! No.Proxy Minecraft (Bukkit)</name>
+    <artifactId>okaeri-minecraft-aicensor-bukkit</artifactId>
+    <name>OK! AI.Censor Minecraft (Bukkit)</name>
 
     <build>
-        <finalName>noproxy-bukkit-${project.version}</finalName>
+        <finalName>aicensor-bukkit-${project.version}</finalName>
         <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
@@ -51,21 +51,21 @@
                     <relocations>
                         <relocation>
                             <pattern>^eu\/okaeri\/(?!minecraft)(.*)$</pattern>
-                            <shadedPattern>eu/okaeri/minecraft/noproxy/lib/$1</shadedPattern>
+                            <shadedPattern>eu/okaeri/minecraft/aicensor/lib/$1</shadedPattern>
                             <rawString>true</rawString>
                         </relocation>
                         <!-- sdk dependencies -->
                         <relocation>
                             <pattern>kong.unirest.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.unirest.</shadedPattern>
+                            <shadedPattern>eu.okaeri.minecraft.aicensor.lib.unirest.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.apache.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.apache.</shadedPattern>
+                            <shadedPattern>eu.okaeri.minecraft.aicensor.lib.apache.</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.google.gson.</pattern>
-                            <shadedPattern>eu.okaeri.minecraft.noproxy.lib.gson.</shadedPattern>
+                            <shadedPattern>eu.okaeri.minecraft.aicensor.lib.gson.</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -76,7 +76,7 @@
     <dependencies>
         <dependency>
             <groupId>eu.okaeri</groupId>
-            <artifactId>okaeri-minecraft-noproxy-shared</artifactId>
+            <artifactId>okaeri-minecraft-aicensor-shared</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>

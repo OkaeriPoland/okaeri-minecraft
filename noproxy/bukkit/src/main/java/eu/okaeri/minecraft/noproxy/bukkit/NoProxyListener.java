@@ -32,9 +32,9 @@ import java.util.List;
 @Component
 public class NoProxyListener implements Listener {
 
-    @Inject private NoProxyConfig config;
-    @Inject private NoProxyMessages messages;
-    @Inject private NoProxyBukkit noproxy;
+    private @Inject NoProxyConfig config;
+    private @Inject NoProxyMessages messages;
+    private @Inject NoProxyBukkit noproxy;
 
     @EventHandler(priority = EventPriority.LOW)
     public void handlePreLogin(AsyncPlayerPreLoginEvent event) {
@@ -52,7 +52,7 @@ public class NoProxyListener implements Listener {
         }
 
         String kickMessage = ColorResponse.of(this.messages.getPlayerInfo())
-                .withField("{PREFIX}", this.messages.getPrefix())
+                .with("{PREFIX}", this.messages.getPrefix())
                 .render();
 
         event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);

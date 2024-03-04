@@ -40,11 +40,11 @@ import java.util.stream.Collectors;
 @Scheduled(rate = MinecraftTimeEquivalent.SECOND * 30, async = true)
 public class VotesUpdateTask implements Runnable {
 
-    @Inject private OpenVoteClient client;
-    @Inject private OpenVoteConfig config;
-    @Inject private OpenVoteMessages messages;
-    @Inject private Plugin plugin;
-    @Inject private Server server;
+    private @Inject OpenVoteClient client;
+    private @Inject OpenVoteConfig config;
+    private @Inject OpenVoteMessages messages;
+    private @Inject Plugin plugin;
+    private @Inject Server server;
 
     @Inject("awaitingVotes")
     private Set<AwaitingVote> awaitingVotes;

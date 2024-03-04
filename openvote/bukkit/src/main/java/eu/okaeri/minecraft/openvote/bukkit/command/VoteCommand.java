@@ -17,13 +17,9 @@
  */
 package eu.okaeri.minecraft.openvote.bukkit.command;
 
-import eu.okaeri.commands.annotation.Arg;
-import eu.okaeri.commands.annotation.Command;
-import eu.okaeri.commands.annotation.Completion;
-import eu.okaeri.commands.annotation.Executor;
+import eu.okaeri.commands.annotation.*;
 import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
-import eu.okaeri.commands.bukkit.annotation.Sender;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.i18n.message.Message;
 import eu.okaeri.injector.annotation.Inject;
@@ -57,11 +53,11 @@ public class VoteCommand implements CommandService {
 
     private static final PlayerLocaleProvider LOCALE_PROVIDER = new PlayerLocaleProvider();
 
-    @Inject private OpenVoteConfig config;
-    @Inject private OpenVoteMessages messages;
+    private @Inject OpenVoteConfig config;
+    private @Inject OpenVoteMessages messages;
     @Inject("awaitingVotes") private Set<AwaitingVote> awaitingVotes;
-    @Inject private BI18n i18n;
-    @Inject private OpenVoteClient client;
+    private @Inject BI18n i18n;
+    private @Inject OpenVoteClient client;
 
     @Executor(pattern = {"list", "lists"}, description = "${commandsVoteListDescription}")
     public Message lists(CommandSender sender) {
@@ -75,7 +71,7 @@ public class VoteCommand implements CommandService {
 
     @Completion(arg = "list", value = "@lists")
     @Executor(description = "${commandsVoteVoteDescription}")
-    public Message _vote(@Sender Player player, @Arg String list) {
+    public Message _vote(@Context Player player, @Arg String list) {
 
         list = list.toLowerCase(Locale.ROOT);
         if (!this.config.getListsMap().containsKey(list)) {

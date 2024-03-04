@@ -55,8 +55,8 @@ import java.util.logging.Level;
 //)
 public class NoProxyBukkitPlugin extends OkaeriBukkitPlugin {
 
-    @Inject private NoProxyClient client;
-    @Inject private NoProxyBukkit noproxy;
+    private @Inject NoProxyClient client;
+    private @Inject NoProxyBukkit noproxy;
 
     public NoProxyBukkitPlugin() {
     }

@@ -26,7 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OpenVoteWebhook extends OkaeriConfig {
-    @Size(min = 1) private String url;
+    @Size(min = 8) private String url;
     @Pattern("GET|POST") private String method = "GET";
     private String content = "";
 }
