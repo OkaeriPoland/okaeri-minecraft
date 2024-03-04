@@ -37,17 +37,17 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Configuration
-@Header("################################################################")
-@Header("#                                                              #")
-@Header("#    OK! OpenVote Minecraft                                    #")
-@Header("#                                                              #")
-@Header("#    Nie wiesz jak skonfigurować? Zerknij do dokumentacji!     #")
-@Header("#    https://wiki.okaeri.eu/pl/uslugi/openvote/minecraft       #")
-@Header("#                                                              #")
-@Header("#    Trouble configuring? Check out the documentation!         #")
-@Header("#    https://wiki.okaeri.eu/en/services/openvote/minecraft     #")
-@Header("#                                                              #")
-@Header("################################################################")
+@Header("##################################################################")
+@Header("#                                                                #")
+@Header("#    OK! OpenVote Minecraft                                      #")
+@Header("#                                                                #")
+@Header("#    Nie wiesz jak skonfigurować? Zerknij do dokumentacji!       #")
+@Header("#    https://wiki.okaeri.cloud/pl/uslugi/openvote/minecraft      #")
+@Header("#                                                                #")
+@Header("#    Trouble configuring? Check out the documentation!           #")
+@Header("#    https://wiki.okaeri.cloud/en/services/openvote/minecraft    #")
+@Header("#                                                                #")
+@Header("##################################################################")
 public class OpenVoteConfig extends OkaeriConfig {
 
     @Exclude

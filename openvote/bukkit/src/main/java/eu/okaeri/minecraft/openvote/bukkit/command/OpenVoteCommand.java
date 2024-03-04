@@ -39,10 +39,10 @@ import java.util.logging.Logger;
 @Command(label = "openvote", description = "OpenVote admin command")
 public class OpenVoteCommand implements CommandService {
 
-    @Inject private OpenVoteConfig config;
-    @Inject private OpenVoteMessages messages;
-    @Inject private Logger logger;
-    @Inject private BI18n i18n;
+    private @Inject OpenVoteConfig config;
+    private @Inject OpenVoteMessages messages;
+    private @Inject Logger logger;
+    private @Inject BI18n i18n;
 
     @Executor(description = "${commandsOpenvoteReloadDescription}")
     public Message reload(CommandSender sender) {

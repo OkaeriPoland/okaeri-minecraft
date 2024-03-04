@@ -1,0 +1,6 @@
+name: AiCensor
+version: ${project.version}-git-${git.commit.id.abbrev}
+main: eu.okaeri.minecraft.aicensor.bukkit.AiCensorBukkitPlugin
+description: 'OK! AI.Censor Minecraft (Bukkit)'
+author: 'Dawid Sawicki <dawid@okaeri.cloud>'
+api-version: 1.13

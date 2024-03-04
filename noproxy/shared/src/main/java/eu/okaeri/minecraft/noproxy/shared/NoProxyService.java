@@ -25,6 +25,7 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestInstance;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.io.UnsupportedEncodingException;
@@ -52,7 +53,7 @@ public abstract class NoProxyService {
     private final Map<String, Long> timeMap = new ConcurrentHashMap<>();
     private long nextDiscard = System.currentTimeMillis() + DATA_DISCARD_TIME;
 
-    public NoProxyService(NoProxyClient client) {
+    public NoProxyService(@NonNull NoProxyClient client) {
         this.client = client;
     }
 

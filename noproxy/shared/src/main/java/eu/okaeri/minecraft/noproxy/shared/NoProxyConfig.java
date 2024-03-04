@@ -32,10 +32,10 @@ import java.util.List;
 @Header("#    OK! No.Proxy Minecraft                                    #")
 @Header("#                                                              #")
 @Header("#    Nie wiesz jak skonfigurować? Zerknij do dokumentacji!     #")
-@Header("#    https://wiki.okaeri.eu/pl/uslugi/noproxy/minecraft        #")
+@Header("#    https://wiki.okaeri.cloud/pl/uslugi/noproxy/minecraft        #")
 @Header("#                                                              #")
 @Header("#    Trouble configuring? Check out the documentation!         #")
-@Header("#    https://wiki.okaeri.eu/en/services/noproxy/minecraft      #")
+@Header("#    https://wiki.okaeri.cloud/en/services/noproxy/minecraft      #")
 @Header("#                                                              #")
 @Header("################################################################")
 public class NoProxyConfig extends OkaeriConfig {

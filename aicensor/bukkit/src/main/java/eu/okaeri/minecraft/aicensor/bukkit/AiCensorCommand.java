@@ -1,6 +1,6 @@
 /*
  * OK! No.Proxy Minecraft
- * Copyright (C) 2021 Okaeri, Dawid Sawicki
+ * Copyright (C) 2023 Okaeri, Dawid Sawicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.okaeri.minecraft.noproxy.bukkit;
+package eu.okaeri.minecraft.aicensor.bukkit;
 
 import eu.okaeri.commands.annotation.Command;
 import eu.okaeri.commands.annotation.Executor;
@@ -26,19 +26,19 @@ import eu.okaeri.commands.service.CommandException;
 import eu.okaeri.commands.service.CommandService;
 import eu.okaeri.configs.exception.OkaeriException;
 import eu.okaeri.injector.annotation.Inject;
-import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
-import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
-import eu.okaeri.sdk.noproxy.NoProxyClient;
+import eu.okaeri.minecraft.aicensor.shared.AiCensorMessages;
+import eu.okaeri.minecraft.aicensor.shared.config.AiCensorConfig;
+import eu.okaeri.sdk.aicensor.AiCensorClient;
 
 @Async
-@Permission("noproxy.admin")
-@Command(label = "noproxy", description = "NoProxy admin command")
-public class NoProxyCommand implements CommandService {
+@Permission("aicensor.admin")
+@Command(label = "aicensor", description = "AiCensor admin command")
+public class AiCensorCommand implements CommandService {
 
-    private @Inject NoProxyConfig config;
-    private @Inject NoProxyMessages messages;
-    private @Inject NoProxyBukkit noproxy;
-    private @Inject NoProxyBukkitPlugin plugin;
+    private @Inject AiCensorConfig config;
+    private @Inject AiCensorMessages messages;
+    private @Inject AiCensorBukkit aicensor;
+    private @Inject AiCensorBukkitPlugin plugin;
 
     @Executor(description = "reloads the configuration")
     public BukkitResponse reload() {
@@ -50,12 +50,9 @@ public class NoProxyCommand implements CommandService {
             throw new CommandException("Reload failed. See more in the console.", exception);
         }
 
-        String token = this.config.getToken();
-        if (!token.isEmpty()) {
-            NoProxyClient client = new NoProxyClient(token);
-            this.noproxy.setClient(client);
-            this.plugin.setClient(client);
-        }
+        AiCensorClient client = this.config.getClient().create();
+        this.aicensor.setClient(client);
+        this.plugin.setClient(client);
 
         return BukkitResponse.ok("The configuration has been reloaded!");
     }

@@ -1,6 +1,6 @@
 /*
  * OK! No.Proxy Minecraft
- * Copyright (C) 2021 Okaeri, Dawid Sawicki
+ * Copyright (C) 2023 Okaeri, Dawid Sawicki
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -15,19 +15,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.okaeri.minecraft.noproxy.shared;
+package eu.okaeri.minecraft.aicensor.shared.config;
 
-import eu.okaeri.configs.OkaeriConfig;
-import eu.okaeri.validator.annotation.Pattern;
-import eu.okaeri.validator.annotation.Size;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@Data
-@EqualsAndHashCode(callSuper = false)
-public class NoProxyWebhook extends OkaeriConfig {
-    @Size(min = 8) private String url;
-    @Pattern("GET|POST") private String method = "GET";
-    private String content = "";
-    private boolean blockedOnly = true;
+public enum AiCensorActionType {
+    BLOCK,
+    IGNORE,
+    ;
 }
