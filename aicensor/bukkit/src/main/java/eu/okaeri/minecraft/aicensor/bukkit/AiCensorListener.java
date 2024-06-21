@@ -22,7 +22,7 @@ import eu.okaeri.minecraft.aicensor.shared.AiCensorMessages;
 import eu.okaeri.minecraft.aicensor.shared.AiCensorResponse;
 import eu.okaeri.minecraft.aicensor.shared.config.AiCensorConfig;
 import eu.okaeri.minecraft.aicensor.shared.config.AiCensorFailMode;
-import eu.okaeri.platform.core.annotation.Component;
+import eu.okaeri.platform.core.annotation.Service;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,7 +33,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Service
 public class AiCensorListener implements Listener {
 
     private @Inject AiCensorConfig config;
