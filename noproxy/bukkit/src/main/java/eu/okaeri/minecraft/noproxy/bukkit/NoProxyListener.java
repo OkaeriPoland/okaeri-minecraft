@@ -21,7 +21,7 @@ import eu.okaeri.commands.bukkit.response.ColorResponse;
 import eu.okaeri.injector.annotation.Inject;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyConfig;
 import eu.okaeri.minecraft.noproxy.shared.NoProxyMessages;
-import eu.okaeri.platform.core.annotation.Component;
+import eu.okaeri.platform.core.annotation.Service;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,7 +29,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 import java.util.List;
 
-@Component
+@Service
 public class NoProxyListener implements Listener {
 
     private @Inject NoProxyConfig config;

@@ -22,7 +22,7 @@ import eu.okaeri.minecraft.aicensor.shared.AiCensorResponse;
 import eu.okaeri.minecraft.aicensor.shared.AiCensorService;
 import eu.okaeri.minecraft.aicensor.shared.config.AiCensorConfig;
 import eu.okaeri.platform.bukkit.scheduler.PlatformScheduler;
-import eu.okaeri.platform.core.annotation.Component;
+import eu.okaeri.platform.core.annotation.Service;
 import eu.okaeri.sdk.aicensor.AiCensorClient;
 import eu.okaeri.sdk.aicensor.model.AiCensorAnalysisFragmentType;
 import lombok.NonNull;
@@ -35,7 +35,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-@Component
+@Service
 public class AiCensorBukkit extends AiCensorService {
 
     private final Map<UUID, Map<AiCensorAnalysisFragmentType, Integer>> offenses = new ConcurrentHashMap<>();
