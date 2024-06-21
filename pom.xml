@@ -16,8 +16,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <library.okaeri-sdk.version>2.0.3</library.okaeri-sdk.version>
-        <library.okaeri-platform.version>0.4.4</library.okaeri-platform.version>
-        <library.okaeri-configs.version>5.0.0-beta.5</library.okaeri-configs.version>
+        <library.okaeri-platform.version>0.4.31</library.okaeri-platform.version>
+        <library.okaeri-configs.version>5.0.2</library.okaeri-configs.version>
     </properties>
 
     <modules>
@@ -96,7 +96,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
 
