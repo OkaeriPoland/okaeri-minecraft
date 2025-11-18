@@ -231,4 +231,11 @@ public class OpenVoteConfig extends OkaeriConfig {
     @Comment("In case of a leak or leak suspicion, change the value ASAP")
     @Comment("for the new random UUID, you can use a build-in \"/openvote reset\".")
     private UUID statsId = UUID.randomUUID();
+
+    @Comment("TRYB DEBUGOWANIA")
+    @Comment("Włącza dodatkowe informacje diagnostyczne w logach.")
+    @Comment(" ")
+    @Comment("DEBUG MODE")
+    @Comment("Enables additional diagnostic information in logs.")
+    private boolean debug = false;
 }

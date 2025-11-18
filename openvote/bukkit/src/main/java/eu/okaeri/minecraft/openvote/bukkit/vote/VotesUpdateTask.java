@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Scheduled(rate = MinecraftTimeEquivalent.SECOND * 30, async = true)
@@ -45,6 +46,7 @@ public class VotesUpdateTask implements Runnable {
     private @Inject OpenVoteMessages messages;
     private @Inject Plugin plugin;
     private @Inject Server server;
+    private @Inject Logger logger;
 
     @Inject("awaitingVotes")
     private Set<AwaitingVote> awaitingVotes;
@@ -53,6 +55,9 @@ public class VotesUpdateTask implements Runnable {
     public void run() {
 
         if (this.awaitingVotes.isEmpty()) {
+            if (this.config.isDebug()) {
+                this.logger.info("No awaiting votes to check");
+            }
             return;
         }
 
@@ -60,26 +65,41 @@ public class VotesUpdateTask implements Runnable {
                 .map(AwaitingVote::getId)
                 .collect(Collectors.toList());
 
+        if (this.config.isDebug()) {
+            this.logger.info("Checking " + votesIds.size() + " vote(s): " + votesIds);
+        }
+
         OpenVoteServerVoteCheckRequest request = new OpenVoteServerVoteCheckRequest(votesIds);
         OpenVoteServerVoteCheckResult checkResult = this.client.postServerVoteCheck(request);
+
+        if (this.config.isDebug()) {
+            this.logger.info("Received check result with " + checkResult.getVotes().size() + " vote status update(s)");
+        }
 
         for (Map.Entry<UUID, String> voteEntry : checkResult.getVotes().entrySet()) {
 
             UUID voteId = voteEntry.getKey();
             String status = voteEntry.getValue();
 
+            if (this.config.isDebug()) {
+                this.logger.info("Processing vote " + voteId + " with status: " + status);
+            }
+
             if (OpenVoteServerVoteState.WAIT.name().equals(status)) {
                 continue;
             }
 
             if (OpenVoteServerVoteState.REMOVE.name().equals(status)) {
-                this.awaitingVotes.removeIf(vote -> vote.getId() == voteId);
+                this.awaitingVotes.removeIf(vote -> vote.getId().equals(voteId));
+                if (this.config.isDebug()) {
+                    this.logger.info("Removed vote " + voteId + " from awaiting queue");
+                }
                 continue;
             }
 
             if (OpenVoteServerVoteState.REWARD.name().equals(status)) {
                 this.awaitingVotes.stream()
-                        .filter(vote -> vote.getId() == voteId)
+                        .filter(vote -> vote.getId().equals(voteId))
                         .findAny()
                         .ifPresent(this::reward);
             }
@@ -88,12 +108,23 @@ public class VotesUpdateTask implements Runnable {
 
     private void reward(AwaitingVote vote) {
 
+        if (this.config.isDebug()) {
+            this.logger.info("Attempting to reward vote " + vote.getId() + " for player " + vote.getPlayer() + " from list " + vote.getList());
+        }
+
         Player player = this.server.getPlayer(vote.getPlayer());
         if ((player == null) || !player.isOnline()) {
+            if (this.config.isDebug()) {
+                this.logger.info("Player " + vote.getPlayer() + " is not online, skipping reward");
+            }
             return;
         }
 
         this.awaitingVotes.remove(vote);
+        if (this.config.isDebug()) {
+            this.logger.info("Executing " + this.config.getRewards().size() + " reward command(s) for player " + player.getName());
+        }
+
         CommandRunner.of(this.plugin, player)
                 .field("name", player.getName())
                 .field("uuid", String.valueOf(player.getUniqueId()))

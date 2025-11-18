@@ -15,8 +15,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <library.okaeri-sdk.version>2.0.3</library.okaeri-sdk.version>
-        <library.okaeri-platform.version>0.4.31</library.okaeri-platform.version>
+        <library.okaeri-sdk.version>1.4.6</library.okaeri-sdk.version>
+        <library.okaeri-platform.version>0.4.47</library.okaeri-platform.version>
         <library.okaeri-configs.version>5.0.2</library.okaeri-configs.version>
     </properties>
 
@@ -128,8 +128,8 @@
 
     <repositories>
         <repository>
-            <id>okaeri-repo</id>
-            <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
+            <id>okaeri-releases</id>
+            <url>https://repo.okaeri.cloud/releases</url>
         </repository>
     </repositories>
 

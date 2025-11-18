@@ -17,4 +17,12 @@
         <module>bukkit</module>
     </modules>
 
+    <dependencies>
+        <dependency>
+            <groupId>eu.okaeri</groupId>
+            <artifactId>okaeri-sdk</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+    </dependencies>
+
 </project>

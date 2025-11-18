@@ -18,6 +18,7 @@
 package eu.okaeri.minecraft.openvote.bukkit.command;
 
 import eu.okaeri.commands.annotation.*;
+import eu.okaeri.commands.brigadier.annotation.BrigadierDisabled;
 import eu.okaeri.commands.bukkit.annotation.Async;
 import eu.okaeri.commands.bukkit.annotation.Permission;
 import eu.okaeri.commands.service.CommandService;
@@ -47,6 +48,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Async
+@BrigadierDisabled
 @Permission("openvote.vote")
 @Command(label = "vote", aliases = "glosuj", description = "${commandsVoteListDescription}")
 public class VoteCommand implements CommandService {
@@ -59,7 +61,7 @@ public class VoteCommand implements CommandService {
     private @Inject BI18n i18n;
     private @Inject OpenVoteClient client;
 
-    @Executor(pattern = {"list", "lists"}, description = "${commandsVoteListDescription}")
+    @Executor(description = "${commandsVoteListDescription}")
     public Message lists(CommandSender sender) {
         return this.i18n.get(sender, this.messages.getCommandsVoteListTemplate())
                 .with("entries", this.config.getListsMap().keySet().stream()
